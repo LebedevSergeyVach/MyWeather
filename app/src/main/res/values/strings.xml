@@ -1,0 +1,9 @@
+<resources>
+
+    <!-- Errors-->
+    <string name="error_no_internet_connection">Нет подключения к интернету</string>
+    <string name="error_slow_internet_connection">Медленное интернет-соединение</string>
+    <string name="error_data_parsing">Ошибка обработки данных</string>
+    <string name="error_unknown">Неизвестная ошибка</string>
+
+</resources>
