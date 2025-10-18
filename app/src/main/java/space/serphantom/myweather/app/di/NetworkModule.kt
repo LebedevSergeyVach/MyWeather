@@ -154,6 +154,4 @@ val networkModule = module {
             .addConverterFactory(get<Json>().asConverterFactory(CONTENT_TYPE.toMediaType()))
             .build()
     }
-
-    // API SERVICE MODULES
 }

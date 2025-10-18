@@ -2,6 +2,7 @@ package space.serphantom.myweather.app.application
 
 import android.app.Application
 import org.koin.core.context.startKoin
+import space.serphantom.myweather.app.di.DIManager
 
 
 /**
@@ -15,8 +16,6 @@ class App : Application() {
     }
 
     private fun initKoin() {
-        startKoin {
-            modules()
-        }
+        DIManager.startKoin(this)
     }
 }
