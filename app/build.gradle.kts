@@ -1,6 +1,8 @@
-import java.io.BufferedReader
+import com.android.build.api.variant.BuildConfigField
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.io.FileInputStream
+import java.io.Serializable
 import java.util.Properties
-import kotlin.apply
 
 plugins {
 
@@ -33,40 +35,30 @@ plugins {
     alias(libs.plugins.google.devtools.ksp)
 }
 
+val config = loadProperties("configs/config.properties")
+
 android {
     namespace = "space.serphantom.myweather"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "space.serphantom.myweather"
         minSdk = 29
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // file("secrets.properties")
-        val secretsProperties = rootDir.resolve("secrets.properties")
-            .bufferedReader()
-            .use { buffer: BufferedReader ->
-                Properties().apply {
-                    load(buffer)
-                }
-            }
-
-        val urlServerWeather = "URL_SERVER_WEATHER"
-
-        buildConfigField(
-            type = "String",
-            name = urlServerWeather,
-            value = secretsProperties.getProperty(urlServerWeather)
-        )
+        versionCode = (config["APPLICATION_VERSION_CODE"] as String).toInt()
+        versionName = config["APPLICATION_VERSION_NAME"] as String
     }
 
     buildTypes {
-        release {
+        debug {
             isMinifyEnabled = false
+            versionNameSuffix = "-debug_build"
+        }
+
+        release {
+            isMinifyEnabled = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -74,19 +66,53 @@ android {
         }
     }
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+    androidComponents {
+        onVariants { variant ->
+            val buildType = variant.buildType ?: return@onVariants
+
+            variant.buildConfigFields?.apply {
+                putStringField("URL_API_SERVER", "\"${config["URL_API_SERVER$buildType"]}\"")
+                putStringField("API_SERVER_KEY", "\"${config["API_SERVER_KEY$buildType"]}\"")
+            }
+        }
     }
 
-    kotlinOptions {
-        jvmTarget = "11"
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_22
+        targetCompatibility = JavaVersion.VERSION_22
+    }
+
+    kotlin {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_22)
+        }
     }
 
     buildFeatures {
         compose = true
         buildConfig = true
     }
+}
+
+fun loadProperties(path: String): Properties {
+    return Properties().apply {
+        load(FileInputStream(rootProject.file(path)))
+    }
+
+//    return rootDir.resolve(path)
+//        .bufferedReader()
+//        .use { buffer: BufferedReader ->
+//            Properties().apply {
+//                load(buffer)
+//            }
+//        }
+}
+
+fun MapProperty<String, BuildConfigField<out Serializable>>.putStringField(
+    key: String,
+    value: String,
+) {
+    put(key, BuildConfigField("String", value, null))
 }
 
 dependencies {
@@ -119,8 +145,8 @@ dependencies {
      * implementation("io.insert-koin:koin-android:3.5.0")
      * implementation("io.insert-koin:koin-androidx-compose:3.5.0")
      */
-    implementation("io.insert-koin:koin-android:3.5.0")
-    implementation("io.insert-koin:koin-androidx-compose:3.5.0")
+    implementation(libs.koin.android)
+    implementation(libs.koin.androidx.compose)
 
     // NEWTWOR / ИНТЕРНЕТ
 
@@ -131,7 +157,7 @@ dependencies {
      * @see <a href="https://square.github.io/okhttp/">Официальный сайт OkHttp</a>
      * @see <a href="https://medium.com/@nameisjayant/best-practices-of-retrofit-and-okhttp-in-android-development-bf4cf494f075">Best Practices Retrofit и OkHttp</a>
      */
-    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation(libs.okhttp)
 
     /**
      * Логирующий интерсептор для OkHttp. Позволяет просматривать HTTP-запросы и ответы в Logcat.
@@ -139,7 +165,7 @@ dependencies {
      *
      * @see <a href="https://square.github.io/okhttp/features/interceptors/">Interceptors в OkHttp</a>
      */
-    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+    implementation(libs.logging.interceptor)
 
     /**
      * Типобезопасный HTTP-клиент для Android и Java. Ретрофит преобразует HTTP API в интерфейс Java/Kotlin,
@@ -159,7 +185,7 @@ dependencies {
      * @see <a href="https://github.com/JakeWharton/retrofit2-kotlinx-serialization-converter">Документация конвертера</a>
      * @see <a href="https://kotlinlang.org/docs/serialization.html">Kotlin Serialization</a>
      */
-    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
+    implementation(libs.retrofit2.kotlinx.serialization.converter)
 
     /**
      * Библиотека сериализации JSON от JetBrains. Позволяет преобразовывать
@@ -168,7 +194,7 @@ dependencies {
      * @see <a href="https://github.com/Kotlin/kotlinx.serialization">Официальный репозиторий</a>
      * @sample <a href="https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/json.md">Примеры работы с JSON</a>
      */
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+    implementation(libs.kotlinx.serialization.json)
 
     // UI COMPONENTS / UI КОМПОНЕНТЫ
 
@@ -179,7 +205,7 @@ dependencies {
      * @see <a href="https://developer.android.com/guide/fragments">Документация Fragment</a>
      * @sample <a href="https://github.com/android/architecture-components-samples">Примеры использования Fragment</a>
      */
-    implementation("androidx.fragment:fragment-ktx:1.8.0")
+    implementation(libs.androidx.fragment.ktx)
 
     // NAVIGATION / НАВИГАЦИЯ
 
@@ -190,15 +216,15 @@ dependencies {
      * @see <a href="https://developer.android.com/guide/navigation">Документация Navigation</a>
      * @sample <a href="https://github.com/android/architecture-components-samples/tree/main/NavigationAdvancedSample">Примеры навигации</a>
      */
-    implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
-    implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
 
     /**
      * Интеграция Navigation с Jetpack Compose. Позволяет использовать навигацию между Composable-экранами.
      *
      * @see <a href="https://developer.android.com/jetpack/compose/navigation">Навигация в Compose</a>
      */
-    implementation("androidx.navigation:navigation-compose:2.7.7")
+    implementation(libs.androidx.navigation.compose)
 
     // LIFE CYCLE FOR ANDROID COMPONENT / ЖИЗНЕННЫЙ ЦИКЛ ANDOIRD КОМПОНЕНТОВ
 
@@ -213,7 +239,7 @@ dependencies {
      * @see androidx.lifecycle.ViewModel
      * @sample <a href="https://github.com/android/architecture-components-samples">Примеры использования</a>
      */
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.0")
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
     // PREFERENCE and DATA / PREFERENCE и данные
 
@@ -226,5 +252,5 @@ dependencies {
      * @see <a href="https://developer.android.com/codelabs/android-preferences-datastore">Codelab по DataStore</a>
      * @sample <a href="https://github.com/android/codelab-android-datastore">Пример приложения</a>
      */
-    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation(libs.androidx.datastore.preferences)
 }
