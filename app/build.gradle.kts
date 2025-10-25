@@ -84,25 +84,37 @@ android {
         if (name == "main") {
 
             res.srcDirs(
+
+                // layouts
                 "src/main/res/layouts/activities",
                 "src/main/res/layouts/fragments",
                 "src/main/res/layouts",
-                "src/main/res/styles",
-                "src/main/res/strings",
                 "src/main/res/navigation",
-                "src/main/res"
+
+                // string
+                "src/main/res/strings",
+//                "src/main/res/strings-ru",
+
+                // style
+                "src/main/res/styles",
+
+                // colors
+                "src/main/res/colors",
+
+                // res
+                "src/main/res",
             )
         }
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_22
+        targetCompatibility = JavaVersion.VERSION_22
     }
 
     kotlin {
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_21)
+            jvmTarget.set(JvmTarget.JVM_22)
         }
     }
 
@@ -116,14 +128,6 @@ fun loadProperties(path: String): Properties {
     return Properties().apply {
         load(FileInputStream(rootProject.file(path)))
     }
-
-//    return rootDir.resolve(path)
-//        .bufferedReader()
-//        .use { buffer: BufferedReader ->
-//            Properties().apply {
-//                load(buffer)
-//            }
-//        }
 }
 
 fun MapProperty<String, BuildConfigField<out Serializable>>.putStringField(
@@ -140,6 +144,7 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
+    implementation(libs.material)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
@@ -159,9 +164,6 @@ dependencies {
      * https://insert-koin.io/
      * https://insert-koin.io/docs/setup/annotations/
      * https://github.com/InsertKoinIO/koin-annotations?tab=readme-ov-file
-     *
-     * implementation("io.insert-koin:koin-android:3.5.0")
-     * implementation("io.insert-koin:koin-androidx-compose:3.5.0")
      */
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
@@ -226,7 +228,7 @@ dependencies {
      * @see "https://developer.android.com/guide/fragments" Документация Fragment
      * @sample "https://github.com/android/architecture-components-samples" Примеры использования Fragment
      */
-    implementation(libs.androidx.fragment.ktx)
+//    implementation(libs.androidx.fragment.ktx)
 
     // NAVIGATION / НАВИГАЦИЯ
 
@@ -238,8 +240,8 @@ dependencies {
      * @sample "https://github.com/android/architecture-components-samples/tree/main/NavigationAdvancedSample"
      * Примеры навигации
      */
-    implementation(libs.androidx.navigation.fragment.ktx)
-    implementation(libs.androidx.navigation.ui.ktx)
+//    implementation(libs.androidx.navigation.fragment.ktx)
+//    implementation(libs.androidx.navigation.ui.ktx)
 
     /**
      * Интеграция Navigation с Jetpack Compose. Позволяет использовать навигацию между Composable-экранами.
@@ -248,7 +250,7 @@ dependencies {
      */
     implementation(libs.androidx.navigation.compose)
 
-    // LIFE CYCLE FOR ANDROID COMPONENT / ЖИЗНЕННЫЙ ЦИКЛ ANDOIRD КОМПОНЕНТОВ
+    // LIFE CYCLE FOR ANDROID COMPONENT / ЖИЗНЕННЫЙ ЦИКЛ ANDROID КОМПОНЕНТОВ
 
     /**
      * Библиотека ViewModel предоставляет компонент архитектуры для управления и хранения
