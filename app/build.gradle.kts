@@ -47,8 +47,8 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        versionCode = (config["APPLICATION_VERSION_CODE"] as String).toInt()
-        versionName = config["APPLICATION_VERSION_NAME"] as String
+        versionCode = config["APPLICATION_VERSION_CODE"].toString().toInt()
+        versionName = config["APPLICATION_VERSION_NAME"].toString()
     }
 
     buildTypes {
@@ -71,20 +71,38 @@ android {
             val buildType = variant.buildType ?: return@onVariants
 
             variant.buildConfigFields?.apply {
-                putStringField("URL_API_SERVER", "\"${config["URL_API_SERVER$buildType"]}\"")
-                putStringField("API_SERVER_KEY", "\"${config["API_SERVER_KEY$buildType"]}\"")
+                putStringField(key = "URL_API_SERVER", value = config["URL_API_SERVER"].toString())
+                putStringField(
+                    key = "API_SERVER_KEY",
+                    value = config["API_SERVER_KEY_${buildType.uppercase()}"].toString()
+                )
             }
         }
     }
 
+    sourceSets.configureEach {
+        if (name == "main") {
+
+            res.srcDirs(
+                "src/main/res/layouts/activities",
+                "src/main/res/layouts/fragments",
+                "src/main/res/layouts",
+                "src/main/res/styles",
+                "src/main/res/strings",
+                "src/main/res/navigation",
+                "src/main/res"
+            )
+        }
+    }
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_22
-        targetCompatibility = JavaVersion.VERSION_22
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     kotlin {
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_22)
+            jvmTarget.set(JvmTarget.JVM_21)
         }
     }
 
@@ -148,14 +166,15 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
 
-    // NEWTWOR / ИНТЕРНЕТ
+    // NETWORK / ИНТЕРНЕТ
 
     /**
      * HTTP-клиент для Java и Android. Используется Retrofit под капотом.
      * Предоставляет поддержку HTTP/2, соединений через сокеты, пулинг и кэширование.
      *
-     * @see <a href="https://square.github.io/okhttp/">Официальный сайт OkHttp</a>
-     * @see <a href="https://medium.com/@nameisjayant/best-practices-of-retrofit-and-okhttp-in-android-development-bf4cf494f075">Best Practices Retrofit и OkHttp</a>
+     * @see "https://square.github.io/okhttp/" Официальный сайт OkHttp
+     * @see "https://medium.com/@nameisjayant/best-practices-of-retrofit-and-okhttp-in-android-development-bf4cf494f075"
+     * Best Practices Retrofit и OkHttp
      */
     implementation(libs.okhttp)
 
@@ -163,7 +182,8 @@ dependencies {
      * Логирующий интерсептор для OkHttp. Позволяет просматривать HTTP-запросы и ответы в Logcat.
      * Полезен для отладки сетевых запросов.
      *
-     * @see <a href="https://square.github.io/okhttp/features/interceptors/">Interceptors в OkHttp</a>
+     * @see "https://square.github.io/okhttp/features/interceptors/"
+     * Interceptors в OkHttp
      */
     implementation(libs.logging.interceptor)
 
@@ -171,10 +191,11 @@ dependencies {
      * Типобезопасный HTTP-клиент для Android и Java. Ретрофит преобразует HTTP API в интерфейс Java/Kotlin,
      * упрощая сетевые запросы и обработку ответов.
      *
-     * @see <a href="https://square.github.io/retrofit/">Официальный сайт Retrofit</a>
-     * @see <a href="https://developer.android.com/codelabs/basic-android-kotlin-compose-getting-data-internet">Codelab от Android Developers</a>
+     * @see "https://square.github.io/retrofit/" Официальный сайт Retrofit
+     * @see "https://developer.android.com/codelabs/basic-android-kotlin-compose-getting-data-internet"
+     * Codelab от Android Developers
      */
-    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation(libs.retrofit)
 
     // SERIALIZATION DATA / СЕРЕАЛИЗАЦИЯ ДАННЫХ
 
@@ -182,8 +203,8 @@ dependencies {
      * Конвертер Retrofit для сериализации JSON в Kotlin объекты с использованием
      * kotlinx.serialization. Альтернатива Moshi и Gson.
      *
-     * @see <a href="https://github.com/JakeWharton/retrofit2-kotlinx-serialization-converter">Документация конвертера</a>
-     * @see <a href="https://kotlinlang.org/docs/serialization.html">Kotlin Serialization</a>
+     * @see "https://github.com/JakeWharton/retrofit2-kotlinx-serialization-converter" Документация конвертера
+     * @see "https://kotlinlang.org/docs/serialization.html" Kotlin Serialization
      */
     implementation(libs.retrofit2.kotlinx.serialization.converter)
 
@@ -191,8 +212,8 @@ dependencies {
      * Библиотека сериализации JSON от JetBrains. Позволяет преобразовывать
      * JSON-строки в объекты Kotlin и обратно без рефлексии.
      *
-     * @see <a href="https://github.com/Kotlin/kotlinx.serialization">Официальный репозиторий</a>
-     * @sample <a href="https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/json.md">Примеры работы с JSON</a>
+     * @see "https://github.com/Kotlin/kotlinx.serialization" Официальный репозиторий
+     * @sample "https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/json.md" Примеры работы с JSON
      */
     implementation(libs.kotlinx.serialization.json)
 
@@ -202,8 +223,8 @@ dependencies {
      * Библиотека Fragment предоставляет компоненты для построения гибких UI-интерфейсов.
      * Включает поддержку жизненного цикла, переходов и back stack.
      *
-     * @see <a href="https://developer.android.com/guide/fragments">Документация Fragment</a>
-     * @sample <a href="https://github.com/android/architecture-components-samples">Примеры использования Fragment</a>
+     * @see "https://developer.android.com/guide/fragments" Документация Fragment
+     * @sample "https://github.com/android/architecture-components-samples" Примеры использования Fragment
      */
     implementation(libs.androidx.fragment.ktx)
 
@@ -213,8 +234,9 @@ dependencies {
      * Navigation Component упрощает навигацию между экранами (Fragment/Composable) в приложении.
      * Предоставляет визуальный редактор графа навигации в Android Studio.
      *
-     * @see <a href="https://developer.android.com/guide/navigation">Документация Navigation</a>
-     * @sample <a href="https://github.com/android/architecture-components-samples/tree/main/NavigationAdvancedSample">Примеры навигации</a>
+     * @see "https://developer.android.com/guide/navigation" Документация Navigation
+     * @sample "https://github.com/android/architecture-components-samples/tree/main/NavigationAdvancedSample"
+     * Примеры навигации
      */
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
@@ -222,7 +244,7 @@ dependencies {
     /**
      * Интеграция Navigation с Jetpack Compose. Позволяет использовать навигацию между Composable-экранами.
      *
-     * @see <a href="https://developer.android.com/jetpack/compose/navigation">Навигация в Compose</a>
+     * @see "https://developer.android.com/jetpack/compose/navigation" Навигация в Compose
      */
     implementation(libs.androidx.navigation.compose)
 
@@ -235,9 +257,9 @@ dependencies {
      * ViewModel отделяет логику управления данными от UI, что способствует лучшей
      * тестируемости и соблюдению принципов чистой архитектуры.
      *
-     * @see <a href="https://developer.android.com/topic/libraries/architecture/viewmodel">Официальная документация ViewModel</a>
-     * @see androidx.lifecycle.ViewModel
-     * @sample <a href="https://github.com/android/architecture-components-samples">Примеры использования</a>
+     * @see "https://developer.android.com/topic/libraries/architecture/viewmodel" Официальная документация ViewModel
+     * @see "androidx.lifecycle.ViewModel
+     * @sample "https://github.com/android/architecture-components-samples" Примеры использования
      */
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
@@ -248,9 +270,9 @@ dependencies {
      * для хранения пар ключ-значение. Решает проблемы SharedPreferences: блокирование UI-потока,
      * отсутствие обработки ошибок и транзакционности.
      *
-     * @see <a href="https://developer.android.com/topic/libraries/architecture/datastore">Официальная документация DataStore</a>
-     * @see <a href="https://developer.android.com/codelabs/android-preferences-datastore">Codelab по DataStore</a>
-     * @sample <a href="https://github.com/android/codelab-android-datastore">Пример приложения</a>
+     * @see "https://developer.android.com/topic/libraries/architecture/datastore" Официальная документация DataStore
+     * @see "https://developer.android.com/codelabs/android-preferences-datastore" Codelab по DataStore
+     * @sample "https://github.com/android/codelab-android-datastore" Пример приложения
      */
     implementation(libs.androidx.datastore.preferences)
 }

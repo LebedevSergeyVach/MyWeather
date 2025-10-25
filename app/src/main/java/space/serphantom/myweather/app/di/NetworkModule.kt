@@ -37,7 +37,7 @@ private const val TIMEOUT_IN_SECONDS = 30L
  * @value "application/json" Стандартный MIME-тип для JSON данных.
  *
  * @see MediaType.get
- * @see <a href="https://tools.ietf.org/html/rfc7159">RFC 7159 - The JavaScript Object Notation (JSON) Data Interchange Format</a>
+ * @see "https://tools.ietf.org/html/rfc7159">RFC 7159 - The JavaScript Object Notation (JSON) Data Interchange Format
  */
 private const val CONTENT_TYPE: String = "application/json"
 
@@ -51,7 +51,7 @@ private const val CONTENT_TYPE: String = "application/json"
  * - API сервисы для работы с удаленными данными
  *
  * @see module Модуль Koin для объединения зависимостей
- * @see <a href="https://insert-koin.io/docs/reference/koin-core/modules">Koin Modules Documentation</a>
+ * @see "https://insert-koin.io/docs/reference/koin-core/modules" Koin Modules Documentation
  */
 val networkModule = module {
 
@@ -70,16 +70,16 @@ val networkModule = module {
      * @return [Json] Сконфигурированный экземпляр JSON сериализатора
      *
      * @see Json Конфигуратор JSON сериализации
-     * @see <a href="https://github.com/Kotlin/kotlinx.serialization">Kotlinx Serialization Documentation</a>
-     * @see <a href="https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/json.md">JSON Serialization Guide</a>
+     * @see "https://github.com/Kotlin/kotlinx.serialization" Kotlinx Serialization Documentation
+     * @see "https://github.com/Kotlin/kotlinx.serialization/blob/master/docs/json.md" JSON Serialization Guide
      */
     single<Json> {
         Json {
             ignoreUnknownKeys = true
             coerceInputValues = true
-            explicitNulls = false
-            isLenient = true
-            encodeDefaults = true
+//            explicitNulls = false
+//            isLenient = true
+//            encodeDefaults = true
         }
     }
 
@@ -103,8 +103,8 @@ val networkModule = module {
      * @see OkHttpClient.Builder Построитель HTTP-клиента
      * @see HttpLoggingInterceptor Интерсептор для логирования сетевых запросов
      * @see BuildConfig.DEBUG Флаг режима отладки приложения
-     * @see <a href="https://square.github.io/okhttp/">OkHttp Official Documentation</a>
-     * @see <a href="https://square.github.io/okhttp/features/interceptors/">OkHttp Interceptors Guide</a>
+     * @see "https://square.github.io/okhttp/" OkHttp Official Documentation
+     * @see "https://square.github.io/okhttp/features/interceptors/" OkHttp Interceptors Guide
      */
     single<OkHttpClient> {
         OkHttpClient.Builder()
@@ -141,16 +141,17 @@ val networkModule = module {
      *
      * @see Retrofit.Builder Построитель Retrofit клиента
      * @see asConverterFactory Конвертер для kotlinx-serialization
-     * @see MediaType.toMediaType Создание MediaType из строки
+     * @see MediaType.toMediaType Создание [MediaType] из строки
      * @see ExperimentalSerializationApi Экспериментальный API сериализации
-     * @see <a href="https://square.github.io/retrofit/">Retrofit Official Documentation</a>
-     * @see <a href="https://github.com/JakeWharton/retrofit2-kotlinx-serialization-converter">Retrofit Converter for Kotlinx Serialization</a>
+     * @see "https://square.github.io/retrofit/" Retrofit Official Documentation
+     * @see "https://github.com/JakeWharton/retrofit2-kotlinx-serialization-converter"
+     * Retrofit Converter for Kotlinx Serialization
      */
     @OptIn(ExperimentalSerializationApi::class)
     single<Retrofit> {
         Retrofit.Builder()
             .client(get<OkHttpClient>())
-            .baseUrl(BuildConfig.URL_SERVER_WEATHER)
+            .baseUrl(BuildConfig.URL_API_SERVER)
             .addConverterFactory(get<Json>().asConverterFactory(CONTENT_TYPE.toMediaType()))
             .build()
     }
