@@ -5,6 +5,7 @@ import space.serphantom.myweather.app.di.DIManager
 
 /**
  * Класс-Application
+ * Инициализация DI Koin с помощью [DIManager]
  */
 class App : Application() {
 

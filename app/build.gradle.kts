@@ -165,8 +165,10 @@ dependencies {
      * https://insert-koin.io/docs/setup/annotations/
      * https://github.com/InsertKoinIO/koin-annotations?tab=readme-ov-file
      */
+    implementation(libs.koin.core)
     implementation(libs.koin.android)
     implementation(libs.koin.androidx.compose)
+    implementation(libs.koin.androidx.compose.navigation)
 
     // NETWORK / ИНТЕРНЕТ
 
