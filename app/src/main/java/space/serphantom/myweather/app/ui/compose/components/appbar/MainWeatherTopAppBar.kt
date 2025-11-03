@@ -14,7 +14,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -53,8 +52,8 @@ fun MainWeatherTopAppBar(
     scrollBehavior: TopAppBarScrollBehavior,
     hazeState: HazeState,
     weatherData: MainWeatherTopAppBarData,
-    hazeStyle: HazeStyle = HazeMaterials.ultraThin(AppTheme.color.backgroundColor),
     modifier: Modifier = Modifier,
+    hazeStyle: HazeStyle = HazeMaterials.ultraThin(AppTheme.color.backgroundColor),
 ) {
     val collapsedFraction = scrollBehavior.state.collapsedFraction
 
@@ -232,11 +231,11 @@ private fun TemperatureRangeComponent(
 
 /**
  * Компонент отображения отдельного значения температуры с единицей измерения
- * Использует ConstraintLayout для точного контроля позиционирования
+ * Использует [ConstraintLayout] для точного контроля позиционирования
  *
- * @param value Значение температуры
- * @param unit Единица измерения
- * @param labelResId Resource ID для форматирования текста
+ * @param [value] Значение температуры
+ * @param [unit] Единица измерения
+ * @param [labelResId] Resource `ID` для форматирования текста
  */
 @Composable
 private fun TemperatureItemComponent(
