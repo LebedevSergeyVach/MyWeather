@@ -1,6 +1,10 @@
 <resources>
 
-    <!-- Errors-->
+    <!-- Weather / Погода-->
+    <string name="min_weather_value">Мин: %s</string>
+    <string name="max_weather_value">Макс: %s</string>
+
+    <!-- Errors / Ошибки -->
     <string name="error_no_internet_connection">Нет подключения к интернету</string>
     <string name="error_slow_internet_connection">Медленное интернет-соединение</string>
     <string name="error_data_parsing">Ошибка обработки данных</string>
