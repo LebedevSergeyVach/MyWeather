@@ -42,7 +42,7 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        minSdk = 29
+        minSdk = 31
         targetSdk = 36
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -91,15 +91,18 @@ android {
                 "src/main/res/layouts",
                 "src/main/res/navigation",
 
-                // string
+                // strings
                 "src/main/res/strings",
 //                "src/main/res/strings-ru",
 
-                // style
+                // styles
                 "src/main/res/styles",
 
                 // colors
                 "src/main/res/colors",
+
+                // fonts
+//                "src/main/res/font",
 
                 // res
                 "src/main/res",
@@ -108,13 +111,13 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_22
-        targetCompatibility = JavaVersion.VERSION_22
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     kotlin {
         compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_22)
+            jvmTarget.set(JvmTarget.JVM_21)
         }
     }
 
@@ -141,8 +144,6 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
-    implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.material)
     implementation(libs.androidx.ui.graphics)
@@ -151,10 +152,36 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+
+    // COMPOSE
+
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.constraintlayout.compose)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.compose.material.icons.extended)
+    implementation(libs.androidx.compose.material3)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
+
+    /**
+     * Coil
+     *
+     * https://github.com/coil-kt/coil
+     * https://coil-kt.github.io/coil/compose/
+     */
+    implementation(libs.coil.network.okhttp)
+    implementation(libs.coil.compose)
+
+    /**
+     * Haze - blur for Compose
+     *
+     * https://github.com/chrisbanes/haze
+     */
+    implementation(libs.haze)
+    implementation(libs.haze.materials)
 
     // DI
 
