@@ -1,0 +1,246 @@
+package space.serphantom.myweather.app.ui.compose.components.stubs
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.WbSunny
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+
+@Composable
+fun WeatherContent(
+    scrollState: LazyListState,
+    paddingValues: PaddingValues,
+    onCityClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    LazyColumn(
+        state = scrollState,
+        modifier = modifier.fillMaxSize(),
+        contentPadding = paddingValues
+    ) {
+        item {
+            CurrentWeatherCard(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp)
+                    .padding(16.dp)
+            )
+        }
+
+        item {
+            HourlyForecastSection(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+            )
+        }
+
+        items(20) { index ->
+            WeatherDayItem(
+                day = "Пн, ${12 + index} июн",
+                highTemp = "${25 + index}°C",
+                lowTemp = "${15 + index}°C",
+                condition = if (index % 2 == 0) "Солнечно" else "Облачно",
+                onClick = onCityClick,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 4.dp)
+            )
+        }
+    }
+}
+
+// CurrentWeatherCard.kt
+@Composable
+fun CurrentWeatherCard(modifier: Modifier = Modifier) {
+    Surface(
+        modifier = modifier,
+        shape = RoundedCornerShape(16.dp),
+        color = MaterialTheme.colorScheme.surfaceVariant,
+        tonalElevation = 4.dp
+    ) {
+        Column(
+            modifier = Modifier.padding(20.dp)
+        ) {
+            Text(
+                text = "Сейчас",
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "23°",
+                    style = MaterialTheme.typography.displayLarge,
+                    fontWeight = FontWeight.Bold
+                )
+
+                Spacer(modifier = Modifier.width(16.dp))
+
+                Column {
+                    Text(
+                        text = "Ощущается как 25°",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                    Text(
+                        text = "Влажность: 45%",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                    Text(
+                        text = "Ветер: 5 м/с",
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+            }
+        }
+    }
+}
+
+// WeatherDayItem.kt
+@Composable
+fun WeatherDayItem(
+    day: String,
+    highTemp: String,
+    lowTemp: String,
+    condition: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Surface(
+        modifier = modifier,
+        shape = RoundedCornerShape(12.dp),
+        color = MaterialTheme.colorScheme.surface,
+        tonalElevation = 2.dp,
+        onClick = onClick
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = day,
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.weight(1f)
+            )
+
+            Text(
+                text = condition,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.weight(1f)
+            )
+
+            Row {
+                Text(
+                    text = highTemp,
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.Bold
+                )
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                Text(
+                    text = lowTemp,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        }
+    }
+}
+
+// HourlyForecastSection.kt
+@Composable
+fun HourlyForecastSection(modifier: Modifier = Modifier) {
+    Column(modifier = modifier) {
+        Text(
+            text = "Почасовой прогноз",
+            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
+
+        LazyRow(
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            items(24) { hour ->
+                HourlyWeatherItem(
+                    time = "${hour}:00",
+                    temperature = "${20 + hour % 5}°",
+                    icon = Icons.Default.WbSunny
+                )
+            }
+        }
+    }
+}
+
+// HourlyWeatherItem.kt
+@Composable
+fun HourlyWeatherItem(
+    time: String,
+    temperature: String,
+    icon: ImageVector,
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .width(60.dp)
+            .padding(8.dp)
+    ) {
+        Text(
+            text = time,
+            style = MaterialTheme.typography.bodySmall
+        )
+
+        Spacer(modifier = Modifier.height(4.dp))
+
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.primary
+        )
+
+        Spacer(modifier = Modifier.height(4.dp))
+
+        Text(
+            text = temperature,
+            style = MaterialTheme.typography.bodyMedium,
+            fontWeight = FontWeight.Medium
+        )
+    }
+}
