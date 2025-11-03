@@ -1,4 +1,4 @@
-package space.serphantom.myweather.app.ui.extensions.log
+package space.serphantom.myweather.utils.log
 
 import android.util.Log
 import space.serphantom.myweather.BuildConfig

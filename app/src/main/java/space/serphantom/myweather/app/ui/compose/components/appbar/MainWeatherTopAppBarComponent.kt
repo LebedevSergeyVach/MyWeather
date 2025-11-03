@@ -21,6 +21,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import dev.chrisbanes.haze.HazeState
@@ -48,7 +49,7 @@ import space.serphantom.myweather.app.ui.compose.theme.AppTheme
  */
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalHazeMaterialsApi::class)
 @Composable
-fun MainWeatherTopAppBar(
+fun MainWeatherTopAppBarComponent(
     scrollBehavior: TopAppBarScrollBehavior,
     hazeState: HazeState,
     weatherData: MainWeatherTopAppBarData,
@@ -147,8 +148,10 @@ private fun CollapsedWeatherComponent(
 
         Text(
             text = weatherData.cityName,
-            maxLines = MainWeatherTopAppBarConstants.MAX_LINES_CITY,
+            maxLines = MainWeatherTopAppBarConstants.MAX_LINES_CITY_COLLAPSED,
             style = AppTheme.typography.titleLarge,
+            textAlign = TextAlign.Center,
+            overflow = TextOverflow.Ellipsis,
         )
     }
 }
@@ -288,7 +291,8 @@ private fun WeatherDisclaimerComponent(disclaimer: String?, modifier: Modifier =
             maxLines = MainWeatherTopAppBarConstants.MAX_LINES_DISCLAIMER,
             style = AppTheme.typography.titleDisclaimer,
             textAlign = TextAlign.Center,
-            modifier = modifier.fillMaxWidth()
+            overflow = TextOverflow.Ellipsis,
+            modifier = modifier.fillMaxWidth(),
         )
     }
 }
@@ -369,7 +373,7 @@ private fun CityTemperatureRowComponent(
 
         Text(
             text = cityName,
-            maxLines = MainWeatherTopAppBarConstants.MAX_LINES_CITY,
+            maxLines = MainWeatherTopAppBarConstants.MAX_LINES_CITY_EXPANDED,
             style = AppTheme.typography.titleMedium,
             modifier = Modifier.constrainAs(cityNameRef) {
                 start.linkTo(parent.start)
@@ -432,5 +436,6 @@ private object MainWeatherTopAppBarConstants {
     const val UNIT_MARGIN = 4
     const val EXPANDED_VERTICAL_SPACING = 1
     const val MAX_LINES_DISCLAIMER = 2
-    const val MAX_LINES_CITY = 1
+    const val MAX_LINES_CITY_COLLAPSED = 2
+    const val MAX_LINES_CITY_EXPANDED = 1
 }

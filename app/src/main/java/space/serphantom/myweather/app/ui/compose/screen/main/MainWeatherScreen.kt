@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.rememberHazeState
-import space.serphantom.myweather.app.ui.compose.components.appbar.MainWeatherTopAppBar
+import space.serphantom.myweather.app.ui.compose.components.appbar.MainWeatherTopAppBarComponent
 import space.serphantom.myweather.app.ui.compose.components.appbar.MainWeatherTopAppBarData
 import space.serphantom.myweather.app.ui.compose.components.stubs.WeatherContent
 import space.serphantom.myweather.app.ui.compose.extensions.hapticScrollEdge
@@ -28,13 +28,13 @@ fun MainWeatherScreen() {
         minTemperature = "-7",
         maxTemperature = "0",
         unitMeasurement = "°C",
-        weatherIconUrl = "https://avatars.githubusercontent.com/u/118658531?v=4"
+        weatherIconUrl = "https://cdn-icons-png.flaticon.com/128/7512/7512545.png"
     )
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
-            MainWeatherTopAppBar(
+            MainWeatherTopAppBarComponent(
                 scrollBehavior = scrollBehavior,
                 hazeState = hazeState,
                 weatherData = weatherData,

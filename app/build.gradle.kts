@@ -80,6 +80,12 @@ android {
         }
     }
 
+    sourceSets {
+        getByName("debug") {
+            java.srcDirs("src/debug/java")
+        }
+    }
+
     sourceSets.configureEach {
         if (name == "main") {
 
@@ -102,7 +108,7 @@ android {
                 "src/main/res/colors",
 
                 // fonts
-//                "src/main/res/font",
+                "src/main/res/font",
 
                 // res
                 "src/main/res",
