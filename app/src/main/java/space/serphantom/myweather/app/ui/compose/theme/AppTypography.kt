@@ -7,7 +7,6 @@ import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.unit.sp
 import androidx.compose.runtime.CompositionLocal
 
 /**
@@ -23,14 +22,12 @@ import androidx.compose.runtime.CompositionLocal
  * @property [titleLarge] Стиль для крупного заголовка `Title Large`
  * @property [titleMedium] Стиль для среднего заголовка `Title Medium`
  * @property [titleSmall] Стиль для мелкого заголовка `Title Small`
- * @property [titleTiny] Стиль для самого мелкого заголовка `Title Tiny`
  * @property [bodyLarge] Стиль для крупного основного текста `Body Large`
  * @property [bodyMedium] Стиль для среднего основного текста `Body Medium`
  * @property [bodySmall] Стиль для мелкого основного текста `Body Small`
  * @property [labelLarge] Стиль для крупных меток `Label Large`
  * @property [labelMedium] Стиль для средних меток `Label Medium`
  * @property [labelSmall] Стиль для мелких меток `Label Small`
- * @property [titleWeather] Специальный стиль для отображения температуры погоды
  * @property [titleDisclaimer] Специальный стиль для дисклеймеров и дополнительной информации
  */
 @Immutable
@@ -50,7 +47,6 @@ data class AppTypography(
     val titleLarge: TextStyle,
     val titleMedium: TextStyle,
     val titleSmall: TextStyle,
-    val titleTiny: TextStyle,
 
     // Body
     val bodyLarge: TextStyle,
@@ -63,7 +59,6 @@ data class AppTypography(
     val labelSmall: TextStyle,
 
     // Custom title
-    val titleWeather: TextStyle,
     val titleDisclaimer: TextStyle,
 )
 
@@ -82,14 +77,12 @@ val LocalAppTypography = staticCompositionLocalOf {
         titleLarge = TextStyle.Default,
         titleMedium = TextStyle.Default,
         titleSmall = TextStyle.Default,
-        titleTiny = TextStyle.Default,
         bodyLarge = TextStyle.Default,
         bodyMedium = TextStyle.Default,
         bodySmall = TextStyle.Default,
         labelLarge = TextStyle.Default,
         labelMedium = TextStyle.Default,
         labelSmall = TextStyle.Default,
-        titleWeather = TextStyle.Default,
         titleDisclaimer = TextStyle.Default,
     )
 }
@@ -124,10 +117,6 @@ fun createAppTypography(appColor: AppColor): AppTypography {
         titleLarge = defaultTypography.titleLarge.copy(fontFamily = nunitoFamilyLarge),
         titleMedium = defaultTypography.titleMedium.copy(fontFamily = nunitoFamilyMedium),
         titleSmall = defaultTypography.titleSmall.copy(fontFamily = nunitoFamilySmall),
-        titleTiny = defaultTypography.titleSmall.copy(
-            fontFamily = nunitoFamilySmall,
-            fontSize = 10.sp
-        ),
 
         bodyLarge = defaultTypography.bodyLarge.copy(fontFamily = nunitoFamilyLarge),
         bodyMedium = defaultTypography.bodyMedium.copy(fontFamily = nunitoFamilyMedium),
@@ -137,7 +126,6 @@ fun createAppTypography(appColor: AppColor): AppTypography {
         labelMedium = defaultTypography.labelMedium.copy(fontFamily = nunitoFamilyMedium),
         labelSmall = defaultTypography.labelSmall.copy(fontFamily = nunitoFamilySmall),
 
-        titleWeather = defaultTypography.displayLarge.copy(fontFamily = nunitoFamilyLarge),
         titleDisclaimer = defaultTypography.titleSmall.copy(
             fontFamily = nunitoFamilySmall,
             color = appColor.titleDisclaimerColor,
