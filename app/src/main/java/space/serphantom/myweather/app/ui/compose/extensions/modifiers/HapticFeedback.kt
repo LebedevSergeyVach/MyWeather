@@ -14,11 +14,38 @@ import androidx.compose.ui.hapticfeedback.HapticFeedback
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalHapticFeedback
 
+/**
+ * Расширяет [Modifier] для добавления тактильной обратной связи (вибрации)
+ * при достижении краев прокручиваемого списка [LazyListState].
+ *
+ * Модификатор отслеживает состояние [lazyListState] и вызывает заданный тактильный
+ * отклик при достижении первого (элемент 0, смещение 0) или последнего элемента списка.
+ * Отклик срабатывает однократно при *первом* достижении края после его покидания.
+ *
+ * **Пример использования:**
+ * ```kotlin
+ * val lazyListState = rememberLazyListState()
+ * LazyColumn(
+ *     modifier = Modifier.hapticScrollEdge(lazyListState),
+ *     state = lazyListState
+ * ) { /* ... */ }
+ * ```
+ *
+ * @param [lazyListState] Состояние [LazyListState] для отслеживания прокрутки и определения краев.
+ * @param [hapticFeedbackType] Тип тактильного отклика. По умолчанию [HapticFeedbackType.TextHandleMove].
+ * @param [hapticFeedback] Экземпляр [HapticFeedback] для выполнения эффектов. По умолчанию [LocalHapticFeedback.current].
+ * @return [Modifier], применяющий логику тактильной обратной связи к компоненту.
+ *
+ * @see HapticFeedback
+ * @see HapticFeedbackType
+ * @see LocalHapticFeedback
+ * @see LazyListState
+ */
 @SuppressLint("FrequentlyChangingValue")
 @Composable
 fun Modifier.hapticScrollEdge(
     lazyListState: LazyListState,
-    hapticFeedbackType: HapticFeedbackType = HapticFeedbackType.SegmentTick,
+    hapticFeedbackType: HapticFeedbackType = HapticFeedbackType.TextHandleMove,
     hapticFeedback: HapticFeedback = LocalHapticFeedback.current,
 ): Modifier = composed {
     var wasAtTop by remember { mutableStateOf(false) }
