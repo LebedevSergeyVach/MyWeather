@@ -1,4 +1,4 @@
-package space.serphantom.myweather.app.ui.compose.extensions
+package space.serphantom.myweather.app.ui.compose.extensions.modifiers
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput

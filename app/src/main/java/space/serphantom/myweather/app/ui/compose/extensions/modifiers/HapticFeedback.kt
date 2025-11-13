@@ -1,4 +1,4 @@
-package space.serphantom.myweather.app.ui.compose.extensions
+package space.serphantom.myweather.app.ui.compose.extensions.modifiers
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.lazy.LazyListState
