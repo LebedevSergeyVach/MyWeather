@@ -31,7 +31,8 @@ import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
 import dev.chrisbanes.haze.materials.HazeMaterials
 import space.serphantom.myweather.R
 import space.serphantom.myweather.app.ui.compose.components.images.ImageComponent
-import space.serphantom.myweather.app.ui.compose.extensions.blockAllGestures
+import space.serphantom.myweather.app.ui.compose.entity.appbar.MainWeatherTopAppBarData
+import space.serphantom.myweather.app.ui.compose.extensions.modifiers.blockAllGestures
 import space.serphantom.myweather.app.ui.compose.theme.AppTheme
 
 /**
@@ -139,7 +140,6 @@ private fun CollapsedWeatherComponent(
         modifier = modifier
             .alpha(1f - collapsedFraction)
             .fillMaxWidth()
-            .padding(bottom = MainWeatherTopAppBarConstants.COLLAPSED_BOTTOM_PADDING.dp),
     ) {
         TemperatureDisplayComponent(
             temperature = weatherData.temperature,
@@ -149,7 +149,7 @@ private fun CollapsedWeatherComponent(
         Text(
             text = weatherData.cityName,
             maxLines = MainWeatherTopAppBarConstants.MAX_LINES_CITY_COLLAPSED,
-            style = AppTheme.typography.titleLarge,
+            style = AppTheme.typography.headlineMedium,
             textAlign = TextAlign.Center,
             overflow = TextOverflow.Ellipsis,
         )
@@ -171,13 +171,10 @@ private fun ExpandedWeatherComponent(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(
-            MainWeatherTopAppBarConstants.EXPANDED_VERTICAL_SPACING.dp,
-            Alignment.CenterVertically
-        ),
+        verticalArrangement = Arrangement.Center,
         modifier = modifier
             .fillMaxWidth()
-            .alpha(collapsedFraction)
+            .alpha(collapsedFraction),
     ) {
         CityTemperatureRowComponent(
             cityName = weatherData.cityName,
@@ -247,33 +244,22 @@ private fun TemperatureItemComponent(
     labelResId: Int,
     modifier: Modifier = Modifier,
 ) {
-    ConstraintLayout(
-        modifier = modifier.wrapContentSize()
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(
+            space = MainWeatherTopAppBarConstants.UNIT_MARGIN.dp,
+            alignment = Alignment.CenterHorizontally,
+        ),
+        modifier = modifier.wrapContentSize(),
     ) {
-        val (valueTextRef, unitTextRef) = remember { createRefs() }
-        val margin = MainWeatherTopAppBarConstants.TEMPERATURE_SPACING.dp
-
         Text(
             text = stringResource(labelResId, value),
-            style = AppTheme.typography.titleSmall,
-            modifier = Modifier.constrainAs(valueTextRef) {
-                start.linkTo(anchor = parent.start)
-                top.linkTo(anchor = parent.top)
-                bottom.linkTo(anchor = parent.bottom)
-            }
+            style = AppTheme.typography.titleMedium,
         )
 
         Text(
             text = unit,
-            style = AppTheme.typography.titleTiny,
-            modifier = Modifier.constrainAs(unitTextRef) {
-                start.linkTo(anchor = valueTextRef.end, margin = margin)
-                top.linkTo(anchor = parent.top)
-                bottom.linkTo(
-                    anchor = parent.bottom,
-                    margin = MainWeatherTopAppBarConstants.UNIT_MARGIN.dp
-                )
-            }
+            style = AppTheme.typography.titleLarge,
         )
     }
 }
@@ -315,7 +301,7 @@ private fun TemperatureDisplayComponent(
 
         Text(
             text = temperature,
-            style = AppTheme.typography.titleWeather,
+            style = AppTheme.typography.displayLarge,
             modifier = Modifier.constrainAs(temperatureRef) {
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
@@ -326,7 +312,7 @@ private fun TemperatureDisplayComponent(
 
         Text(
             text = unitMeasurement,
-            style = AppTheme.typography.titleLarge,
+            style = AppTheme.typography.displayLarge,
             modifier = Modifier.constrainAs(unitRef) {
                 start.linkTo(
                     anchor = temperatureRef.end,
@@ -365,43 +351,43 @@ private fun CityTemperatureRowComponent(
             modifier = Modifier
                 .size(MainWeatherTopAppBarConstants.WEATHER_ICON_SIZE.dp)
                 .constrainAs(weatherIconRef) {
-                    end.linkTo(cityNameRef.start, margin = margin)
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
+                    end.linkTo(anchor = cityNameRef.start, margin = margin)
+                    top.linkTo(anchor = parent.top)
+                    bottom.linkTo(anchor = parent.bottom)
                 }
         )
 
         Text(
             text = cityName,
             maxLines = MainWeatherTopAppBarConstants.MAX_LINES_CITY_EXPANDED,
-            style = AppTheme.typography.titleMedium,
+            style = AppTheme.typography.titleLarge,
             modifier = Modifier.constrainAs(cityNameRef) {
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
-                top.linkTo(parent.top)
-                bottom.linkTo(parent.bottom)
+                start.linkTo(anchor = parent.start)
+                end.linkTo(anchor = parent.end)
+                top.linkTo(anchor = parent.top)
+                bottom.linkTo(anchor = parent.bottom)
             }
         )
 
         Text(
             text = temperature,
-            style = AppTheme.typography.titleMedium,
+            style = AppTheme.typography.titleLarge,
             modifier = Modifier.constrainAs(temperatureRef) {
-                start.linkTo(cityNameRef.end, margin = margin)
-                top.linkTo(parent.top)
-                bottom.linkTo(parent.bottom)
+                start.linkTo(anchor = cityNameRef.end, margin = margin)
+                top.linkTo(anchor = parent.top)
+                bottom.linkTo(anchor = parent.bottom)
             }
         )
 
         Text(
             text = unitMeasurement,
-            style = AppTheme.typography.titleTiny,
+            style = AppTheme.typography.headlineSmall,
             modifier = Modifier.constrainAs(unitRef) {
                 start.linkTo(
-                    temperatureRef.end,
-                    margin = MainWeatherTopAppBarConstants.TINY_MARGIN.dp
+                    anchor = temperatureRef.end,
+                    margin = MainWeatherTopAppBarConstants.TEMPERATURE_UNIT_MARGIN_WITCH_CITY.dp,
                 )
-                top.linkTo(parent.top)
+                top.linkTo(anchor = parent.top)
             }
         )
     }
@@ -426,15 +412,13 @@ private fun WeatherIconComponent(
 
 private object MainWeatherTopAppBarConstants {
     const val COLLAPSE_THRESHOLD = 0.5f
-    const val COLLAPSED_BOTTOM_PADDING = 6
     const val WEATHER_ICON_SIZE = 24
     const val DEFAULT_MARGIN = 8
-    const val TINY_MARGIN = 2
+    const val TEMPERATURE_UNIT_MARGIN_WITCH_CITY = 4
     const val TEMPERATURE_UNIT_MARGIN = 6
     const val TITLE_END_PADDING = 16
     const val TEMPERATURE_SPACING = 4
     const val UNIT_MARGIN = 4
-    const val EXPANDED_VERTICAL_SPACING = 1
     const val MAX_LINES_DISCLAIMER = 2
     const val MAX_LINES_CITY_COLLAPSED = 2
     const val MAX_LINES_CITY_EXPANDED = 1

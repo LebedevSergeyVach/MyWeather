@@ -52,7 +52,7 @@ fun ImageComponent(
     Image(
         modifier = modifier,
         painter = painter,
-        contentDescription = null,
+        contentDescription = settings.contentDescription,
         alignment = settings.alignment,
         contentScale = settings.contentScale,
     )

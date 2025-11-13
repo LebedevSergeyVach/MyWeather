@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.WbSunny
@@ -26,6 +27,37 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import space.serphantom.myweather.app.ui.compose.components.weatherhours.HourlyForecastComponent
+import space.serphantom.myweather.app.ui.compose.entity.hourlyforecast.HourlyForecastData
+import space.serphantom.myweather.app.ui.compose.extensions.modifiers.hapticScrollEdge
+
+internal fun createTestWeatherHourDataList(count: Int = 24): List<HourlyForecastData> {
+    val testList = mutableListOf<HourlyForecastData>()
+    for (i in 0 until count) {
+        val hour = i
+        val temperature = "${15 + (i % 10)}°" // Пример изменения температуры
+        val description = if (i % 3 == 0) "Солнечно" else if (i % 3 == 1) "Облачно" else "Дождь"
+
+        // Пример URL для иконок. В реальном приложении это будут ссылки на CDN.
+        // Здесь используем заглушки или сервисы, предоставляющие тестовые изображения.
+        // Например, https://openweathermap.org/img/wn/10d@2x.png для реальных иконок OpenWeatherMap
+        val iconUrl = when (i % 3) {
+            0 -> "https://openweathermap.org/img/wn/01d@2x.png" // Солнечно
+            1 -> "https://openweathermap.org/img/wn/04d@2x.png" // Облачно
+            else -> "https://openweathermap.org/img/wn/09d@2x.png" // Дождь
+        }
+
+        testList.add(
+            HourlyForecastData(
+                time = if (i == 0) "сейчас" else "$hour:00",
+                temperature = temperature,
+                weatherIconUrl = iconUrl,
+                weatherCondition = description
+            )
+        )
+    }
+    return testList
+}
 
 @Composable
 fun WeatherContent(
@@ -36,6 +68,8 @@ fun WeatherContent(
 ) {
     LazyColumn(
         state = scrollState,
+        verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
+        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier.fillMaxSize(),
         contentPadding = paddingValues
     ) {
@@ -43,8 +77,16 @@ fun WeatherContent(
             CurrentWeatherCard(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 16.dp)
-                    .padding(16.dp)
+                    .padding(top = 64.dp)
+                    .padding(horizontal = 16.dp)
+            )
+        }
+
+        item {
+            val lazyListState = rememberLazyListState()
+            HourlyForecastComponent(
+                hourlyForecastData = createTestWeatherHourDataList(),
+                lazyListState = lazyListState,
             )
         }
 
@@ -52,7 +94,7 @@ fun WeatherContent(
             HourlyForecastSection(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .padding(horizontal = 16.dp)
             )
         }
 

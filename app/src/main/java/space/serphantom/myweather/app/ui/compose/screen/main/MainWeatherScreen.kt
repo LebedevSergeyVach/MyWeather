@@ -10,9 +10,9 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.rememberHazeState
 import space.serphantom.myweather.app.ui.compose.components.appbar.MainWeatherTopAppBarComponent
-import space.serphantom.myweather.app.ui.compose.components.appbar.MainWeatherTopAppBarData
+import space.serphantom.myweather.app.ui.compose.entity.appbar.MainWeatherTopAppBarData
 import space.serphantom.myweather.app.ui.compose.components.stubs.WeatherContent
-import space.serphantom.myweather.app.ui.compose.extensions.hapticScrollEdge
+import space.serphantom.myweather.app.ui.compose.extensions.modifiers.hapticScrollEdge
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -27,7 +27,7 @@ fun MainWeatherScreen() {
         temperature = "37",
         minTemperature = "-7",
         maxTemperature = "0",
-        unitMeasurement = "°C",
+        unitMeasurement = "°",
         weatherIconUrl = "https://cdn-icons-png.flaticon.com/128/7512/7512545.png"
     )
 

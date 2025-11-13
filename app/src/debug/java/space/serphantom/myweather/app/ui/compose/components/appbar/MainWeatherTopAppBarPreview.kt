@@ -23,7 +23,8 @@ import dev.chrisbanes.haze.ExperimentalHazeApi
 import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.rememberHazeState
 import space.serphantom.myweather.app.ui.compose.components.stubs.WeatherContent
-import space.serphantom.myweather.app.ui.compose.extensions.hapticScrollEdge
+import space.serphantom.myweather.app.ui.compose.entity.appbar.MainWeatherTopAppBarData
+import space.serphantom.myweather.app.ui.compose.extensions.modifiers.hapticScrollEdge
 import space.serphantom.myweather.app.ui.compose.theme.AppTheme
 
 /**

@@ -11,6 +11,7 @@ import androidx.compose.ui.layout.ContentScale
  *
  * @property [alignment] Выравнивание изображения внутри контейнера
  * @property [contentScale] Способ масштабирования изображения
+ * @property [contentDescription] Подпись описания изображения
  * @property [crossFadeDurationInMilliseconds] Длительность анимации перекрестного `fade`-эффекта при загрузке
  * @property [errorDrawableResourceId] `Resource ID drawable` для отображения при ошибке загрузки
  * @property [placeholderDrawableResourceId] `Resource ID drawable` для отображения во время загрузки
@@ -23,6 +24,7 @@ import androidx.compose.ui.layout.ContentScale
 data class ImageComponentSettings(
     val alignment: Alignment = Alignment.Center,
     val contentScale: ContentScale = ContentScale.Fit,
+    val contentDescription: String? = null,
     val crossFadeDurationInMilliseconds: Int = 100,
     @field:DrawableRes
     val errorDrawableResourceId: Int? = null,
