@@ -1,12 +1,14 @@
 package space.serphantom.myweather.app.ui.compose.components.weatherhours
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.LazyRow
@@ -21,17 +23,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import space.serphantom.myweather.R
 import space.serphantom.myweather.app.ui.compose.components.images.ImageComponent
 import space.serphantom.myweather.app.ui.compose.components.settings.ImageComponentSettings
 import space.serphantom.myweather.app.ui.compose.entity.hourlyforecast.HourlyForecastData
-import space.serphantom.myweather.app.ui.compose.extensions.modifiers.hapticScrollEdge
-import space.serphantom.myweather.app.ui.compose.theme.AppTheme
 import space.serphantom.myweather.app.ui.compose.extensions.HorizontalDividerComponent
 import space.serphantom.myweather.app.ui.compose.extensions.cards.AppCard
 import space.serphantom.myweather.app.ui.compose.extensions.cards.StyledCard
+import space.serphantom.myweather.app.ui.compose.extensions.modifiers.hapticScrollEdge
+import space.serphantom.myweather.app.ui.compose.theme.AppTheme
 
 /**
  * Главный компонент для отображения карточки с почасовым прогнозом погоды.
@@ -52,7 +56,7 @@ fun HourlyForecastComponent(
     modifier: Modifier = Modifier,
 ) {
     StyledCard(
-        style = AppCard.lowElevationStyle(),
+        style = AppCard.noneElevationStyle(),
         modifier = modifier
             .fillMaxWidth()
             .padding(horizontal = HourlyForecastConstants.CARD_HORIZONTAL_PADDING.dp),
@@ -112,6 +116,8 @@ private fun HourlyForecastHeaderComponent(
 
 /**
  * Компонент горизонтального списка с почасовыми прогнозами погоды.
+ * Автоматически рассчитывает ширину элементов для отображения [HourlyForecastConstants.VISIBLE_ITEMS_COUNT] компонентов.
+ * Использует [BoxWithConstraints] для адаптации к различным размерам экрана.
  * Использует `LazyRow` для эффективного отображения большого количества элементов.
  *
  * @param [lazyListState] Состояние `lazy`-списка для управления скроллом
@@ -120,30 +126,43 @@ private fun HourlyForecastHeaderComponent(
  *
  * @see LazyListState
  * @see HourlyForecastData
+ * @see BoxWithConstraints
  */
+@Suppress("COMPOSE_APPLIER_CALL_MISMATCH")
 @Composable
 private fun HourlyForecastListComponent(
     lazyListState: LazyListState,
     hourlyForecastData: List<HourlyForecastData>,
     modifier: Modifier = Modifier,
 ) {
-    LazyRow(
-        state = lazyListState,
-        horizontalArrangement = Arrangement.spacedBy(
-            space = HourlyForecastConstants.LIST_ITEM_SPACING.dp,
-        ),
-        contentPadding = PaddingValues(
-            horizontal = HourlyForecastConstants.LIST_CONTENT_PADDING.dp,
-        ),
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(vertical = HourlyForecastConstants.LIST_VERTICAL_PADDING.dp),
-    ) {
-        items(
-            items = hourlyForecastData,
-            key = { it.time },
-        ) { forecastData ->
-            HourlyForecastItemComponent(forecastData = forecastData)
+    BoxWithConstraints(modifier = modifier.fillMaxWidth()) {
+        val itemSpacing = HourlyForecastConstants.ITEM_SPACING.dp
+        val horizontalPadding = HourlyForecastConstants.LIST_CONTENT_PADDING.dp
+
+        val itemWidth = calculateItemWidth(
+            availableWidth = maxWidth,
+            horizontalPadding = horizontalPadding,
+            itemSpacing = itemSpacing,
+            visibleItemsCount = HourlyForecastConstants.VISIBLE_ITEMS_COUNT
+        )
+
+        LazyRow(
+            state = lazyListState,
+            horizontalArrangement = Arrangement.spacedBy(itemSpacing),
+            contentPadding = PaddingValues(horizontal = horizontalPadding),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = HourlyForecastConstants.LIST_VERTICAL_PADDING.dp),
+        ) {
+            items(
+                items = hourlyForecastData,
+                key = { it.time }
+            ) { forecastData ->
+                HourlyForecastItemComponent(
+                    forecastData = forecastData,
+                    modifier = Modifier.width(itemWidth),
+                )
+            }
         }
     }
 }
@@ -176,6 +195,8 @@ private fun HourlyForecastItemComponent(
             fontWeight = FontWeight.Bold,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth(),
         )
 
         WeatherIconComponent(
@@ -189,6 +210,8 @@ private fun HourlyForecastItemComponent(
             fontWeight = FontWeight.Medium,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth(),
         )
     }
 }
@@ -217,8 +240,38 @@ private fun WeatherIconComponent(
             contentScale = ContentScale.Fit,
             alignment = Alignment.Center,
         ),
-        modifier = modifier.size(HourlyForecastConstants.WEATHER_ICON_SIZE.dp),
     )
+}
+
+/**
+ * Рассчитывает оптимальную ширину элемента для отображения заданного количества компонентов.
+ * Учитывает доступную ширину, отступы и промежутки между элементами.
+ *
+ * @param [availableWidth] Доступная ширина для размещения элементов
+ * @param [horizontalPadding] Горизонтальные отступы контейнера
+ * @param [itemSpacing] Промежуток между элементами
+ * @param [visibleItemsCount] Количество видимых элементов (может быть дробным для частичного отображения)
+ * @return Рассчитанная ширина элемента с ограничениями
+ * [min][HourlyForecastConstants.ITEM_MIN_WIDTH]/[max][HourlyForecastConstants.ITEM_MAX_WIDTH]
+ *
+ * @see HourlyForecastConstants.VISIBLE_ITEMS_COUNT
+ */
+@Composable
+private fun calculateItemWidth(
+    availableWidth: Dp,
+    horizontalPadding: Dp,
+    itemSpacing: Dp,
+    visibleItemsCount: Float,
+): Dp {
+    val minWidth = HourlyForecastConstants.ITEM_MIN_WIDTH.dp
+    val maxWidth = HourlyForecastConstants.ITEM_MAX_WIDTH.dp
+
+    val totalHorizontalPadding = horizontalPadding * 2
+    val totalSpacing = itemSpacing * (visibleItemsCount - 1).toInt()
+    val calculatedWidth =
+        (availableWidth - totalHorizontalPadding - totalSpacing) / visibleItemsCount
+
+    return calculatedWidth.coerceIn(minimumValue = minWidth, maximumValue = maxWidth)
 }
 
 /**
@@ -227,8 +280,6 @@ private fun WeatherIconComponent(
  */
 private object HourlyForecastConstants {
     // Card константы
-    const val CARD_CORNER_RADIUS = 16
-    const val CARD_ELEVATION = 0
     const val CARD_HORIZONTAL_PADDING = 16
     const val CARD_VERTICAL_PADDING = 8
 
@@ -239,11 +290,17 @@ private object HourlyForecastConstants {
     const val HEADER_VERTICAL_PADDING = 8
 
     // List константы
-    const val LIST_ITEM_SPACING = 16
     const val LIST_CONTENT_PADDING = 16
     const val LIST_VERTICAL_PADDING = 8
+    const val ITEM_SPACING = 16
+
+    // Адаптивные константы для отображения 5.5 элементов
+    const val VISIBLE_ITEMS_COUNT = 5.5f
+
+    // Минимальная и максимальная ширина элемента
+    const val ITEM_MIN_WIDTH = 32
+    const val ITEM_MAX_WIDTH = 100
 
     // Item константы
     const val ITEM_VERTICAL_SPACING = 4
-    const val WEATHER_ICON_SIZE = 48
 }

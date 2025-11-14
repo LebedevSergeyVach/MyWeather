@@ -77,6 +77,25 @@ object AppCard {
     }
 
     /**
+     * Создает и возвращает стиль для карточек без `elevation`.
+     * Используется для карточек, которые визуально ближе к поверхности.
+     *
+     * @param containerColor Цвет фона карточки - (по умолчанию [surfaceContainerLow][MaterialTheme.colorScheme.surfaceContainerLow])
+     * @return Стиль карточки без `elevation`
+     */
+    @Composable
+    fun noneElevationStyle(containerColor: Color = MaterialTheme.colorScheme.surfaceContainerLow): Style {
+        return Style(
+            shape = RoundedCornerShape(CornerRadius.LARGE.dp),
+            elevation = CardDefaults.cardElevation(defaultElevation = Elevation.NONE.dp),
+            containerColor = containerColor,
+            contentColor = MaterialTheme.colorScheme.onSurface,
+            disabledContainerColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.12f),
+            disabledContentColor = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.38f)
+        )
+    }
+
+    /**
      * Создает и возвращает стиль для карточек с низким `elevation`.
      * Используется для карточек, которые визуально ближе к поверхности.
      *

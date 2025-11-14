@@ -29,6 +29,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import space.serphantom.myweather.app.ui.compose.components.weatherhours.HourlyForecastComponent
 import space.serphantom.myweather.app.ui.compose.entity.hourlyforecast.HourlyForecastData
+import space.serphantom.myweather.app.ui.compose.extensions.cards.AppCard
+import space.serphantom.myweather.app.ui.compose.extensions.cards.StyledCard
 import space.serphantom.myweather.app.ui.compose.extensions.modifiers.hapticScrollEdge
 
 internal fun createTestWeatherHourDataList(count: Int = 24): List<HourlyForecastData> {
@@ -116,11 +118,9 @@ fun WeatherContent(
 // CurrentWeatherCard.kt
 @Composable
 fun CurrentWeatherCard(modifier: Modifier = Modifier) {
-    Surface(
+    StyledCard(
+        style = AppCard.noneElevationStyle(),
         modifier = modifier,
-        shape = RoundedCornerShape(16.dp),
-        color = MaterialTheme.colorScheme.surfaceVariant,
-        tonalElevation = 4.dp
     ) {
         Column(
             modifier = Modifier.padding(20.dp)
