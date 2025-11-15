@@ -27,11 +27,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import space.serphantom.myweather.app.ui.compose.components.CurrentWeatherSummaryComponent
 import space.serphantom.myweather.app.ui.compose.components.weatherhours.HourlyForecastComponent
-import space.serphantom.myweather.app.ui.compose.entity.hourlyforecast.HourlyForecastData
+import space.serphantom.myweather.app.ui.compose.data.entity.current_weather_summary.CurrentWeatherSummaryData
+import space.serphantom.myweather.app.ui.compose.data.entity.hourlyforecast.HourlyForecastData
 import space.serphantom.myweather.app.ui.compose.extensions.cards.AppCard
 import space.serphantom.myweather.app.ui.compose.extensions.cards.StyledCard
-import space.serphantom.myweather.app.ui.compose.extensions.modifiers.hapticScrollEdge
+import java.time.LocalDate
 
 internal fun createTestWeatherHourDataList(count: Int = 24): List<HourlyForecastData> {
     val testList = mutableListOf<HourlyForecastData>()
@@ -72,15 +74,30 @@ fun WeatherContent(
         state = scrollState,
         verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier.fillMaxSize(),
-        contentPadding = paddingValues
+        contentPadding = paddingValues,
+        modifier = modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp),
     ) {
+//        item {
+//            CurrentWeatherCard(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .padding(top = 64.dp)
+//            )
+//        }
+
         item {
-            CurrentWeatherCard(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 64.dp)
-                    .padding(horizontal = 16.dp)
+            CurrentWeatherSummaryComponent(
+                weatherData = CurrentWeatherSummaryData(
+                    feelsLike = 34,
+                    date = LocalDate.now(),
+                    humidity = 65,
+                    windSpeed = 3.2,
+                    chanceOfRain = 15,
+                    disclaimer = "Ближайшие дни ожидаются ураганы и плохая погода. Телефон 112."
+                ),
+                modifier = Modifier.padding(top = 64.dp)
             )
         }
 
@@ -92,14 +109,6 @@ fun WeatherContent(
             )
         }
 
-        item {
-            HourlyForecastSection(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
-            )
-        }
-
         items(20) { index ->
             WeatherDayItem(
                 day = "Пн, ${12 + index} июн",
@@ -107,9 +116,7 @@ fun WeatherContent(
                 lowTemp = "${15 + index}°C",
                 condition = if (index % 2 == 0) "Солнечно" else "Облачно",
                 onClick = onCityClick,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 4.dp)
+                modifier = Modifier.fillMaxWidth()
             )
         }
     }

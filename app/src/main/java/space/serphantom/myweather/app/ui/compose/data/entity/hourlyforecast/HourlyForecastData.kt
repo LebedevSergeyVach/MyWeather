@@ -1,4 +1,4 @@
-package space.serphantom.myweather.app.ui.compose.entity.hourlyforecast
+package space.serphantom.myweather.app.ui.compose.data.entity.hourlyforecast
 
 import androidx.compose.runtime.Immutable
 

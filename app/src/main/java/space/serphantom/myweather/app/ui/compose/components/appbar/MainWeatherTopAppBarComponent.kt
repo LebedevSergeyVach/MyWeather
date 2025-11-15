@@ -31,7 +31,7 @@ import dev.chrisbanes.haze.materials.ExperimentalHazeMaterialsApi
 import dev.chrisbanes.haze.materials.HazeMaterials
 import space.serphantom.myweather.R
 import space.serphantom.myweather.app.ui.compose.components.images.ImageComponent
-import space.serphantom.myweather.app.ui.compose.entity.appbar.MainWeatherTopAppBarData
+import space.serphantom.myweather.app.ui.compose.data.entity.appbar.MainWeatherTopAppBarData
 import space.serphantom.myweather.app.ui.compose.extensions.modifiers.blockAllGestures
 import space.serphantom.myweather.app.ui.compose.theme.AppTheme
 

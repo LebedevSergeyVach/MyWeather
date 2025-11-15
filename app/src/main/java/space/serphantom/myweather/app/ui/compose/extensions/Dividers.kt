@@ -1,9 +1,11 @@
 package space.serphantom.myweather.app.ui.compose.extensions
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
@@ -26,6 +28,7 @@ fun HorizontalDividerComponent(
     horizontalPaddingDp: Dp = 16.dp,
     thicknessDp: Dp = 0.5.dp,
     color: Color = AppTheme.color.iconsTintColor,
+    @SuppressLint("ModifierParameter")
     modifier: Modifier = Modifier,
 ) {
     HorizontalDivider(

@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import space.serphantom.myweather.R
 import space.serphantom.myweather.app.ui.compose.components.images.ImageComponent
 import space.serphantom.myweather.app.ui.compose.components.settings.ImageComponentSettings
-import space.serphantom.myweather.app.ui.compose.entity.hourlyforecast.HourlyForecastData
+import space.serphantom.myweather.app.ui.compose.data.entity.hourlyforecast.HourlyForecastData
 import space.serphantom.myweather.app.ui.compose.extensions.HorizontalDividerComponent
 import space.serphantom.myweather.app.ui.compose.extensions.cards.AppCard
 import space.serphantom.myweather.app.ui.compose.extensions.cards.StyledCard
@@ -57,9 +57,7 @@ fun HourlyForecastComponent(
 ) {
     StyledCard(
         style = AppCard.noneElevationStyle(),
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = HourlyForecastConstants.CARD_HORIZONTAL_PADDING.dp),
+        modifier = modifier.fillMaxWidth()
     ) {
         Column(
             modifier = Modifier
@@ -280,7 +278,6 @@ private fun calculateItemWidth(
  */
 private object HourlyForecastConstants {
     // Card константы
-    const val CARD_HORIZONTAL_PADDING = 16
     const val CARD_VERTICAL_PADDING = 8
 
     // Header константы

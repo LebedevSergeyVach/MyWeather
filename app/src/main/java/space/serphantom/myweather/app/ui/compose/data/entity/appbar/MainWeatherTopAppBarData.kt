@@ -1,4 +1,4 @@
-package space.serphantom.myweather.app.ui.compose.entity.appbar
+package space.serphantom.myweather.app.ui.compose.data.entity.appbar
 
 import androidx.compose.runtime.Immutable
 

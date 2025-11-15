@@ -10,9 +10,10 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.rememberHazeState
 import space.serphantom.myweather.app.ui.compose.components.appbar.MainWeatherTopAppBarComponent
-import space.serphantom.myweather.app.ui.compose.entity.appbar.MainWeatherTopAppBarData
+import space.serphantom.myweather.app.ui.compose.data.entity.appbar.MainWeatherTopAppBarData
 import space.serphantom.myweather.app.ui.compose.components.stubs.WeatherContent
 import space.serphantom.myweather.app.ui.compose.extensions.modifiers.hapticScrollEdge
+import space.serphantom.myweather.app.ui.compose.theme.AppTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -40,6 +41,7 @@ fun MainWeatherScreen() {
                 weatherData = weatherData,
             )
         },
+        containerColor = AppTheme.color.backgroundColor,
     ) { paddingValues ->
         WeatherContent(
             scrollState = scrollState,
