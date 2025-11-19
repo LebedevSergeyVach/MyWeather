@@ -1,4 +1,4 @@
-package space.serphantom.myweather.app.ui.compose.components
+package space.serphantom.myweather.app.ui.compose.components.current_weather_summary
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,9 +20,8 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import space.serphantom.myweather.app.ui.compose.components.current_weather_summary.CurrentWeatherSummaryComponentPreview
 import space.serphantom.myweather.app.ui.compose.data.entity.current_weather_summary.CurrentWeatherSummaryData
-import space.serphantom.myweather.app.ui.compose.extensions.HorizontalDividerComponent
+import space.serphantom.myweather.app.ui.compose.extensions.dividers.HorizontalDividerComponent
 import space.serphantom.myweather.app.ui.compose.extensions.cards.AppCard
 import space.serphantom.myweather.app.ui.compose.extensions.cards.StyledCard
 import space.serphantom.myweather.app.ui.compose.theme.AppTheme
@@ -47,7 +46,7 @@ fun CurrentWeatherSummaryComponent(
     modifier: Modifier = Modifier,
 ) {
     StyledCard(
-        style = AppCard.noneElevationStyle(),
+        cardStyle = AppCard.noneElevationStyle(),
         modifier = modifier.fillMaxWidth(),
     ) {
         Column(
@@ -220,7 +219,7 @@ private fun WeatherParameterRowComponent(
         Icon(
             imageVector = imageVector,
             contentDescription = null,
-            tint = AppTheme.color.iconsTintColor,
+            tint = AppTheme.color.iconTintColor,
             modifier = Modifier.size(CurrentWeatherSummaryConstants.ICON_SIZE),
         )
 
@@ -247,10 +246,7 @@ private fun WeatherParameterRowComponent(
 @Composable
 private fun DisclaimerComponent(disclaimer: String?) {
     disclaimer?.let { text ->
-        HorizontalDividerComponent(
-            verticalPaddingDp = 0.dp,
-            horizontalPaddingDp = 0.dp
-        )
+        HorizontalDividerComponent()
 
         Text(
             text = text,

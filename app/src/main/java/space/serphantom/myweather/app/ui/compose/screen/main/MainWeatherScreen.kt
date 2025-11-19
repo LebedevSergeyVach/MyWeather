@@ -10,8 +10,8 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import dev.chrisbanes.haze.hazeSource
 import dev.chrisbanes.haze.rememberHazeState
 import space.serphantom.myweather.app.ui.compose.components.appbar.MainWeatherTopAppBarComponent
-import space.serphantom.myweather.app.ui.compose.data.entity.appbar.MainWeatherTopAppBarData
 import space.serphantom.myweather.app.ui.compose.components.stubs.WeatherContent
+import space.serphantom.myweather.app.ui.compose.data.entity.appbar.MainWeatherTopAppBarData
 import space.serphantom.myweather.app.ui.compose.extensions.modifiers.hapticScrollEdge
 import space.serphantom.myweather.app.ui.compose.theme.AppTheme
 
@@ -46,7 +46,6 @@ fun MainWeatherScreen() {
         WeatherContent(
             scrollState = scrollState,
             paddingValues = paddingValues,
-            onCityClick = { },
             modifier = Modifier
                 .hazeSource(state = hazeState)
                 .hapticScrollEdge(lazyListState = scrollState),

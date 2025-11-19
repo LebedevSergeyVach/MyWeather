@@ -1,4 +1,4 @@
-package space.serphantom.myweather.utils
+app/src/main/java/space/serphantom/myweather/utils/DateUtils.ktpackage space.serphantom.myweather.utils
 
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -27,5 +27,41 @@ object DateUtils {
         val dateString = date.format(dateFormatter)
 
         return "$dayOfWeek, $dateString"
+    }
+
+
+    /**
+     * Форматирует дату в сокращенный формат "число месяц"
+     * Пример: "15 дек"
+     *
+     * @param date дата для форматирования
+     * @param locale локаль для форматирования (по умолчанию русская)
+     * @return отформатированная строка с числом и сокращенным названием месяца
+     */
+    fun formatShortDate(date: LocalDate, locale: Locale = Locale("ru")): String {
+        val formatter = DateTimeFormatter.ofPattern("d MMM", locale)
+        return date.format(formatter)
+    }
+
+    /**
+     * Форматирует день недели для прогноза погоды
+     * Возвращает "Сегодня", "Завтра" или сокращенное название дня недели
+     *
+     * @param date дата для определения дня недели
+     * @param today текущая дата для сравнения
+     * @param locale локаль для форматирования (по умолчанию русская)
+     * @return отформатированное название дня недели
+     */
+    fun formatDayOfWeekForForecast(
+        date: LocalDate,
+        today: LocalDate = LocalDate.now(),
+        locale: Locale = Locale("ru"),
+    ): String {
+        return when (date) {
+            today -> "Сегодня"
+            today.plusDays(1) -> "Завтра"
+            else -> date.dayOfWeek.getDisplayName(TextStyle.SHORT, locale)
+                .replaceFirstChar { it.uppercase() }
+        }
     }
 }

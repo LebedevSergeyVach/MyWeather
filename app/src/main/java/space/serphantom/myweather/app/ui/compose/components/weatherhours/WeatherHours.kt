@@ -1,4 +1,4 @@
-package space.serphantom.myweather.app.ui.compose.components.weatherhours
+ package space.serphantom.myweather.app.ui.compose.components.weatherhours
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -31,7 +31,7 @@ import space.serphantom.myweather.R
 import space.serphantom.myweather.app.ui.compose.components.images.ImageComponent
 import space.serphantom.myweather.app.ui.compose.components.settings.ImageComponentSettings
 import space.serphantom.myweather.app.ui.compose.data.entity.hourlyforecast.HourlyForecastData
-import space.serphantom.myweather.app.ui.compose.extensions.HorizontalDividerComponent
+import space.serphantom.myweather.app.ui.compose.extensions.dividers.HorizontalDividerComponent
 import space.serphantom.myweather.app.ui.compose.extensions.cards.AppCard
 import space.serphantom.myweather.app.ui.compose.extensions.cards.StyledCard
 import space.serphantom.myweather.app.ui.compose.extensions.modifiers.hapticScrollEdge
@@ -56,16 +56,18 @@ fun HourlyForecastComponent(
     modifier: Modifier = Modifier,
 ) {
     StyledCard(
-        style = AppCard.noneElevationStyle(),
+        cardStyle = AppCard.noneElevationStyle(),
         modifier = modifier.fillMaxWidth()
     ) {
         Column(
+            verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = HourlyForecastConstants.CARD_VERTICAL_PADDING.dp),
         ) {
             HourlyForecastHeaderComponent()
-            HorizontalDividerComponent()
+            HorizontalDividerComponent(horizontalPaddingDp = 16.dp)
             HourlyForecastListComponent(
                 lazyListState = lazyListState,
                 hourlyForecastData = hourlyForecastData,
@@ -93,16 +95,13 @@ private fun HourlyForecastHeaderComponent(
         ),
         modifier = modifier
             .fillMaxWidth()
-            .padding(
-                horizontal = HourlyForecastConstants.HEADER_HORIZONTAL_PADDING.dp,
-                vertical = HourlyForecastConstants.HEADER_VERTICAL_PADDING.dp,
-            ),
+            .padding(horizontal = HourlyForecastConstants.HEADER_HORIZONTAL_PADDING.dp),
     ) {
         Icon(
             imageVector = Icons.Default.Schedule,
+            tint = AppTheme.color.iconTintColor,
             contentDescription = null,
             modifier = Modifier.size(HourlyForecastConstants.HEADER_ICON_SIZE.dp),
-            tint = AppTheme.color.iconsTintColor,
         )
 
         Text(
@@ -148,9 +147,7 @@ private fun HourlyForecastListComponent(
             state = lazyListState,
             horizontalArrangement = Arrangement.spacedBy(itemSpacing),
             contentPadding = PaddingValues(horizontal = horizontalPadding),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = HourlyForecastConstants.LIST_VERTICAL_PADDING.dp),
+            modifier = Modifier.fillMaxWidth()
         ) {
             items(
                 items = hourlyForecastData,
@@ -278,17 +275,15 @@ private fun calculateItemWidth(
  */
 private object HourlyForecastConstants {
     // Card константы
-    const val CARD_VERTICAL_PADDING = 8
+    const val CARD_VERTICAL_PADDING = 16
 
     // Header константы
     const val HEADER_ICON_SIZE = 16
     const val HEADER_SPACING = 8
     const val HEADER_HORIZONTAL_PADDING = 16
-    const val HEADER_VERTICAL_PADDING = 8
 
     // List константы
     const val LIST_CONTENT_PADDING = 16
-    const val LIST_VERTICAL_PADDING = 8
     const val ITEM_SPACING = 16
 
     // Адаптивные константы для отображения 5.5 элементов

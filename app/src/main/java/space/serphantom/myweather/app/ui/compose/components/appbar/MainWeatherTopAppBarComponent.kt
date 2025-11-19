@@ -55,7 +55,7 @@ fun MainWeatherTopAppBarComponent(
     hazeState: HazeState,
     weatherData: MainWeatherTopAppBarData,
     modifier: Modifier = Modifier,
-    hazeStyle: HazeStyle = HazeMaterials.ultraThin(AppTheme.color.backgroundColor),
+    hazeStyle: HazeStyle = HazeMaterials.ultraThin(AppTheme.color.appBarColor),
 ) {
     val collapsedFraction = scrollBehavior.state.collapsedFraction
 

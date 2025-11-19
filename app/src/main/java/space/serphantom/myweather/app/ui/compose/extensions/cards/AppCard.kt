@@ -30,7 +30,7 @@ object AppCard {
      * @see CardDefaults
      */
     @Immutable
-    data class Style(
+    data class CardStyle(
         val shape: Shape,
         val elevation: CardElevation,
         val containerColor: Color,
@@ -84,8 +84,8 @@ object AppCard {
      * @return Стиль карточки без `elevation`
      */
     @Composable
-    fun noneElevationStyle(containerColor: Color = MaterialTheme.colorScheme.surfaceContainerLow): Style {
-        return Style(
+    fun noneElevationStyle(containerColor: Color = MaterialTheme.colorScheme.surfaceContainerLow): CardStyle {
+        return CardStyle(
             shape = RoundedCornerShape(CornerRadius.LARGE.dp),
             elevation = CardDefaults.cardElevation(defaultElevation = Elevation.NONE.dp),
             containerColor = containerColor,
@@ -103,8 +103,8 @@ object AppCard {
      * @return Стиль карточки с низким `elevation`
      */
     @Composable
-    fun lowElevationStyle(containerColor: Color = MaterialTheme.colorScheme.surfaceContainerLow): Style {
-        return Style(
+    fun lowElevationStyle(containerColor: Color = MaterialTheme.colorScheme.surfaceContainerLow): CardStyle {
+        return CardStyle(
             shape = RoundedCornerShape(CornerRadius.LARGE.dp),
             elevation = CardDefaults.cardElevation(defaultElevation = Elevation.LOW.dp),
             containerColor = containerColor,
@@ -122,8 +122,8 @@ object AppCard {
      * @return Стиль карточки со средним elevation
      */
     @Composable
-    fun mediumElevationStyle(containerColor: Color = MaterialTheme.colorScheme.surface): Style {
-        return Style(
+    fun mediumElevationStyle(containerColor: Color = MaterialTheme.colorScheme.surface): CardStyle {
+        return CardStyle(
             shape = androidx.compose.foundation.shape.RoundedCornerShape(CornerRadius.MEDIUM.dp),
             elevation = CardDefaults.cardElevation(defaultElevation = Elevation.MEDIUM.dp),
             containerColor = containerColor,
@@ -141,8 +141,8 @@ object AppCard {
      * @return Стиль карточки с высоким elevation
      */
     @Composable
-    fun highElevationStyle(containerColor: Color = MaterialTheme.colorScheme.surface): Style {
-        return Style(
+    fun highElevationStyle(containerColor: Color = MaterialTheme.colorScheme.surface): CardStyle {
+        return CardStyle(
             shape = androidx.compose.foundation.shape.RoundedCornerShape(CornerRadius.MEDIUM.dp),
             elevation = CardDefaults.cardElevation(defaultElevation = Elevation.HIGH.dp),
             containerColor = containerColor,
@@ -159,8 +159,8 @@ object AppCard {
      * @return Стиль прозрачной карточки
      */
     @Composable
-    fun transparentStyle(): Style {
-        return Style(
+    fun transparentStyle(): CardStyle {
+        return CardStyle(
             shape = androidx.compose.foundation.shape.RoundedCornerShape(CornerRadius.MEDIUM.dp),
             elevation = CardDefaults.cardElevation(defaultElevation = Elevation.NONE.dp),
             containerColor = Color.Companion.Transparent,
@@ -177,8 +177,8 @@ object AppCard {
      * @return Стиль акцентной карточки
      */
     @Composable
-    fun accentStyle(): Style {
-        return Style(
+    fun accentStyle(): CardStyle {
+        return CardStyle(
             shape = androidx.compose.foundation.shape.RoundedCornerShape(CornerRadius.LARGE.dp),
             elevation = CardDefaults.cardElevation(defaultElevation = Elevation.MEDIUM.dp),
             containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -195,8 +195,8 @@ object AppCard {
      * @return Стиль карточки с ошибкой
      */
     @Composable
-    fun errorStyle(): Style {
-        return Style(
+    fun errorStyle(): CardStyle {
+        return CardStyle(
             shape = androidx.compose.foundation.shape.RoundedCornerShape(CornerRadius.MEDIUM.dp),
             elevation = CardDefaults.cardElevation(defaultElevation = Elevation.LOW.dp),
             containerColor = MaterialTheme.colorScheme.errorContainer,
