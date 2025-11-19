@@ -155,6 +155,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.espresso.core)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -237,7 +238,7 @@ dependencies {
     // SERIALIZATION DATA / СЕРЕАЛИЗАЦИЯ ДАННЫХ
 
     /**
-     * Конвертер Retrofit для сериализации JSON в Kotlin объекты с использованием
+     * Конвертер Retrofit для сериализации JSON в Kot lin объекты с использованием
      * kotlinx.serialization. Альтернатива Moshi и Gson.
      *
      * @see "https://github.com/JakeWharton/retrofit2-kotlinx-serialization-converter" Документация конвертера
@@ -312,4 +313,13 @@ dependencies {
      * @sample "https://github.com/android/codelab-android-datastore" Пример приложения
      */
     implementation(libs.androidx.datastore.preferences)
+
+    // WORKING WITH DATA / РАБОТА С ДАННЫМИ
+
+    /**
+     * Immutable Collections Library for Kotlin
+     *
+     * @ee "https://github.com/Kotlin/kotlinx.collections.immutable"
+     */
+    implementation(libs.kotlinx.collections.immutable)
 }
