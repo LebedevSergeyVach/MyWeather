@@ -3,18 +3,22 @@ package space.serphantom.myweather.app.ui.compose.theme
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.CompositionLocal
+import androidx.compose.ui.platform.LocalContext
 
 /**
  * Основная тема приложения, объединяющая цветовую схему и типографику.
  * Автоматически определяет системную тему и применяет соответствующие настройки.
  *
- * @param darkTheme Флаг, указывающий на использование темной темы (по умолчанию определяется системой)
- * @param content Composable контент, к которому применяется тема
+ * @param [darkTheme] Флаг, указывающий на использование темной темы (по умолчанию определяется системой)
+ * @param [useDynamicColors] Флаг, указывающий на использование динамических цветов системы `Android 12+`
+ * @param [content] Composable контент, к которому применяется тема
  *
  * @see AppColor
  * @see AppTypography
@@ -22,10 +26,25 @@ import androidx.compose.runtime.CompositionLocal
 @Composable
 fun AppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
+    useDynamicColors: Boolean = true,
     content: @Composable () -> Unit,
 ) {
-    val appColor = if (darkTheme) createAppColorSystemDark() else createAppColorSystemLight()
-    val appTypography = createAppTypography(appColor)
+    val context = LocalContext.current
+    val dynamicColorScheme = when (useDynamicColors) {
+        true -> {
+            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+        }
+
+        false -> null
+    }
+
+    val appColor = when (darkTheme) {
+        true -> createAppColorSystemDark(dynamicColorScheme)
+        false -> createAppColorSystemLight(dynamicColorScheme)
+    }
+
+    val appTypography = createAppTypography(appColor = appColor)
+    val appButtons = createAppButtons(appColor = appColor, appTypography = appTypography)
 
     val darkColorScheme = darkColorScheme(background = appColor.backgroundColor)
     val lightColorScheme = lightColorScheme(background = appColor.backgroundColor)
@@ -39,6 +58,7 @@ fun AppTheme(
         CompositionLocalProvider(
             LocalAppColor provides appColor,
             LocalAppTypography provides appTypography,
+            LocalAppButtons provides appButtons,
             content = content,
         )
     }
@@ -135,18 +155,12 @@ object AppTheme {
      * - Размер: 11sp, межстрочный: 16dp, межбуквенный: 0.5dp
      * - **Использование**: Самый мелкий текст, капсулы
      *
-     * ## Кастомный стиль
-     *
-     * **`titleDisclaimer`** - на основе `titleSmall`
-     * - **Использование**: Дисклеймеры, юридический текст, вспомогательная информация
-     *
      * ## Практические рекомендации для e-commerce:
      *
      * - **`titleLarge`** - названия товаров в карточках
      * - **`bodyMedium`** - описания товаров, характеристики
      * - **`labelMedium`** - цены, скидки, теги "новинка"
      * - **`titleSmall`** - артикулы, размеры, доступность
-     * - **`titleDisclaimer`** - условия доставки, юридическая информация
      *
      * @return Текущий объект [AppTypography]
      *
@@ -156,4 +170,12 @@ object AppTheme {
         @Composable
         @ReadOnlyComposable
         get() = LocalAppTypography.current
+
+    /**
+     * Возвращает текущую систему кнопок приложения
+     */
+    val buttons: AppButtons
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalAppButtons.current
 }

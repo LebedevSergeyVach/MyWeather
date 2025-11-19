@@ -128,7 +128,7 @@ fun createAppTypography(appColor: AppColor): AppTypography {
 
         titleDisclaimer = defaultTypography.titleSmall.copy(
             fontFamily = nunitoFamilySmall,
-            color = appColor.titleDisclaimerColor,
+            color = appColor.mainDarkColorText,
         ),
     )
 }
