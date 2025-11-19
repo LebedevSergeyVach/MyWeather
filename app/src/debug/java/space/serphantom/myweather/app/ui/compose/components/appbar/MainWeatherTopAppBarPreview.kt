@@ -76,7 +76,6 @@ private fun MainWeatherTopAppBarComponentPreview() {
                 WeatherContent(
                     scrollState = scrollState,
                     paddingValues = paddingValues,
-                    onCityClick = { },
                     modifier = Modifier
                         .hazeSource(state = hazeState)
                         .hapticScrollEdge(lazyListState = scrollState),
@@ -123,7 +122,6 @@ private fun WeatherTopAppBarCollapsedPreview() {
                 WeatherContent(
                     scrollState = scrollState,
                     paddingValues = paddingValues,
-                    onCityClick = { },
                     modifier = Modifier
                         .hazeSource(state = hazeState)
                         .hapticScrollEdge(lazyListState = scrollState),
@@ -169,7 +167,6 @@ private fun WeatherTopAppBarDarkPreview() {
                 WeatherContent(
                     scrollState = scrollState,
                     paddingValues = paddingValues,
-                    onCityClick = { },
                     modifier = Modifier
                         .hazeSource(state = hazeState)
                         .hapticScrollEdge(lazyListState = scrollState),
@@ -223,7 +220,6 @@ private fun WeatherTopAppBarLongTextPreview() {
                 WeatherContent(
                     scrollState = scrollState,
                     paddingValues = paddingValues,
-                    onCityClick = { },
                     modifier = Modifier
                         .hazeSource(state = hazeState)
                         .hapticScrollEdge(lazyListState = scrollState),
