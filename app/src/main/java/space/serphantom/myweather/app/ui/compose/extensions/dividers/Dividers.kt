@@ -26,7 +26,7 @@ fun HorizontalDividerComponent(
     verticalPaddingDp: Dp = 0.dp,
     horizontalPaddingDp: Dp = 0.dp,
     thicknessDp: Dp = 0.5.dp,
-    color: Color = AppTheme.color.iconsTintColor,
+    color: Color = AppTheme.color.iconTintColor,
     @SuppressLint("ModifierParameter")
     modifier: Modifier = Modifier,
 ) {
