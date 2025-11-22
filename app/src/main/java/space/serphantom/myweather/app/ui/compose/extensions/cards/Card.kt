@@ -1,31 +1,107 @@
 package space.serphantom.myweather.app.ui.compose.extensions.cards
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import space.serphantom.myweather.app.ui.compose.styles.cards.CardStyle
+import space.serphantom.myweather.app.ui.compose.theme.AppTheme
 
 /**
- * Composable-функция для создания карточки с предопределенным стилем.
- * Упрощает использование системы [AppCard] в компонентах.
+ * Базовая карточка приложения с поддержкой различных стилей.
+ * Использует стили из [AppTheme.cards] для согласованного внешнего вида.
  *
- * @param [cardStyle] Стиль карточки из системы [AppCard]
- * @param [modifier] Базовый модификатор для настройки внешнего вида
- * @param [content] Контент, отображаемый внутри карточки
- *
- * @see AppCard.CardStyle
+ * @param [onClick] Опциональный колбэк, вызываемый при нажатии на карточку
+ * @param [modifier] Модификатор для кастомизации внешнего вида и поведения карточки
+ * @param [enabled] Флаг, указывающий на активность карточки
+ * @param [style] Стиль карточки из темы приложения. По умолчанию используется средний размер elevated карточки
+ * @param [border] Параметры обводки кнопки - [BorderStroke]
+ * @param [content] Composable контент карточки
  */
 @Composable
-fun StyledCard(
-    cardStyle: AppCard.CardStyle,
+fun AppCard(
+    onClick: () -> Unit = {},
     modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    style: CardStyle = AppTheme.cards.filled,
+    border: BorderStroke? = null,
     content: @Composable ColumnScope.() -> Unit,
 ) {
+    val cardColors = CardDefaults.cardColors(
+        containerColor = style.colors.containerColor,
+        contentColor = style.colors.contentColor,
+        disabledContainerColor = style.colors.disabledContainerColor,
+        disabledContentColor = style.colors.disabledContentColor,
+    )
+
     Card(
-        shape = cardStyle.shape,
-        elevation = cardStyle.elevation,
-        colors = cardStyle.toCardColors(),
+        onClick = onClick,
         modifier = modifier,
+        enabled = enabled,
+        shape = style.shape,
+        elevation = style.elevation ?: CardDefaults.cardElevation(),
+        colors = cardColors,
         content = content,
+        border = border,
+    )
+}
+
+/**
+ * Упрощенная версия filled карточки.
+ * Рекомендуется для карточек без тени с заполненным фоном.
+ *
+ * @param [onClick] Опциональный колбэк, вызываемый при нажатии на карточку
+ * @param [modifier] Модификатор для кастомизации внешнего вида и поведения карточки
+ * @param [enabled] Флаг, указывающий на активность карточки
+ * @param [content] Composable контент карточки
+ */
+@Composable
+fun AppFilledCard(
+    onClick: () -> Unit = {},
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    content: @Composable ColumnScope.() -> Unit,
+) {
+    AppCard(
+        onClick = onClick,
+        modifier = modifier,
+        enabled = enabled,
+        style = AppTheme.cards.filled,
+        content = content,
+    )
+}
+
+/**
+ * Упрощенная версия outlined карточки.
+ * Рекомендуется для карточек с обводкой.
+ *
+ * @param [onClick] Опциональный колбэк, вызываемый при нажатии на карточку
+ * @param [modifier] Модификатор для кастомизации внешнего вида и поведения карточки
+ * @param [enabled] Флаг, указывающий на активность карточки
+ * @param [borderStrokeWidth] Ширина обводки в [Dp]
+ * @param [content] Composable контент карточки
+ */
+@Composable
+fun AppOutlinedCard(
+    onClick: () -> Unit = {},
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    borderStrokeWidth: Dp = 3.dp,
+    content: @Composable ColumnScope.() -> Unit,
+) {
+    AppCard(
+        onClick = onClick,
+        modifier = modifier,
+        enabled = enabled,
+        style = AppTheme.cards.outlined,
+        content = content,
+        border = BorderStroke(
+            width = borderStrokeWidth,
+            color = AppTheme.cards.outlined.colors.borderStrokeColor,
+        ),
     )
 }

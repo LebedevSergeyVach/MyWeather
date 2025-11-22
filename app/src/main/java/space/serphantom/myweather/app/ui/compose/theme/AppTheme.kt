@@ -45,6 +45,7 @@ fun AppTheme(
 
     val appTypography = createAppTypography(appColor = appColor)
     val appButtons = createAppButtons(appColor = appColor, appTypography = appTypography)
+    val appCards = createAppCards(appColor = appColor)
 
     val darkColorScheme = darkColorScheme(background = appColor.backgroundColor)
     val lightColorScheme = lightColorScheme(background = appColor.backgroundColor)
@@ -59,6 +60,7 @@ fun AppTheme(
             LocalAppColor provides appColor,
             LocalAppTypography provides appTypography,
             LocalAppButtons provides appButtons,
+            LocalAppCards provides appCards,
             content = content,
         )
     }
@@ -178,4 +180,12 @@ object AppTheme {
         @Composable
         @ReadOnlyComposable
         get() = LocalAppButtons.current
+
+    /**
+     * Возвращает текущую систему карточек приложения.
+     */
+    val cards: AppCards
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalAppCards.current
 }
