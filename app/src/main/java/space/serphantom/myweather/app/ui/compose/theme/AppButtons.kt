@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocal
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.unit.dp
 import space.serphantom.myweather.app.ui.compose.styles.buttons.ButtonStyle
 
@@ -95,6 +96,7 @@ fun createAppButtons(
     val filledButtonColors = appColor.filledButtonColors
 
     val buttonShape = RoundedCornerShape(16.dp)
+    val buttonClickHapticFeedback = HapticFeedbackType.Confirm
 
     val buttonElevation = ButtonDefaults.buttonElevation(
         defaultElevation = 0.dp,
@@ -113,6 +115,7 @@ fun createAppButtons(
             iconSize = 16.dp,
             contentPadding = PaddingValues(horizontal = 0.dp, vertical = 0.dp),
             elevation = buttonElevation,
+            hapticFeedbackType = buttonClickHapticFeedback,
         ),
         small = ButtonStyle(
             shape = buttonShape,
@@ -122,6 +125,7 @@ fun createAppButtons(
             iconSize = 24.dp,
             contentPadding = PaddingValues(horizontal = 0.dp, vertical = 0.dp),
             elevation = buttonElevation,
+            hapticFeedbackType = buttonClickHapticFeedback,
         ),
         medium = ButtonStyle(
             shape = buttonShape,
@@ -131,6 +135,7 @@ fun createAppButtons(
             iconSize = 36.dp,
             contentPadding = PaddingValues(horizontal = 0.dp, vertical = 0.dp),
             elevation = buttonElevation,
+            hapticFeedbackType = buttonClickHapticFeedback,
         ),
         large = ButtonStyle(
             shape = buttonShape,
@@ -140,6 +145,7 @@ fun createAppButtons(
             iconSize = 44.dp,
             contentPadding = PaddingValues(horizontal = 0.dp, vertical = 0.dp),
             elevation = buttonElevation,
+            hapticFeedbackType = buttonClickHapticFeedback,
         )
     )
 

@@ -170,7 +170,7 @@ fun WeatherContent(
             Spacer(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(1000.dp),
+                    .height(32.dp),
             )
         }
     }

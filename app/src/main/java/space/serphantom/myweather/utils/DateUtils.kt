@@ -1,4 +1,4 @@
-app/src/main/java/space/serphantom/myweather/utils/DateUtils.ktpackage space.serphantom.myweather.utils
+package space.serphantom.myweather.utils
 
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter

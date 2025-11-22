@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.unit.dp
 import space.serphantom.myweather.app.ui.compose.data.constans.buttons.IconPosition
 import space.serphantom.myweather.app.ui.compose.styles.buttons.ButtonStyle
@@ -40,8 +41,16 @@ fun AppFilledButton(
     style: ButtonStyle = AppTheme.buttons.filled.medium,
     content: @Composable RowScope.() -> Unit,
 ) {
+    val hapticFeedback = LocalHapticFeedback.current
+
     Button(
-        onClick = onClick,
+        onClick = {
+            style.hapticFeedbackType?.let { hapticType ->
+                hapticFeedback.performHapticFeedback(hapticType)
+            }
+
+            onClick()
+        },
         modifier = modifier.defaultMinSize(minHeight = style.minHeight),
         enabled = enabled,
         colors = ButtonDefaults.buttonColors(
