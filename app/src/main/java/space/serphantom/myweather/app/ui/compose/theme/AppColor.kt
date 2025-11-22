@@ -1,6 +1,7 @@
 package space.serphantom.myweather.app.ui.compose.theme
 
 import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.ReadOnlyComposable
@@ -8,6 +9,7 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.runtime.CompositionLocal
 import space.serphantom.myweather.app.ui.compose.styles.buttons.ButtonColors
+import space.serphantom.myweather.app.ui.compose.styles.cards.CardColors
 
 /**
  * Неизменяемый `data class`, представляющий цветовую схему приложения.
@@ -26,6 +28,7 @@ data class AppColor(
     val backgroundColor: Color,
     val iconTintColor: Color,
     val filledButtonColors: ButtonColors,
+    val cardColors: CardColors,
     val mainDarkColorText: Color,
 )
 
@@ -38,6 +41,7 @@ val LocalAppColor = staticCompositionLocalOf {
         appBarColor = Color.Unspecified,
         backgroundColor = Color.Unspecified,
         filledButtonColors = ButtonColors.Unspecified,
+        cardColors = CardColors.Unspecified,
         iconTintColor = Color.Unspecified,
         mainDarkColorText = Color.Unspecified,
     )
@@ -56,12 +60,22 @@ val LocalAppColor = staticCompositionLocalOf {
 @Composable
 @ReadOnlyComposable
 fun createAppColorSystemDark(dynamicColorScheme: ColorScheme?): AppColor {
+    val colorScheme = dynamicColorScheme ?: MaterialTheme.colorScheme
+
+    // Buttons
     val buttonContainerColor = dynamicColorScheme?.primary ?: Colors.darkGray
     val buttonContentColor = dynamicColorScheme?.onPrimary ?: Colors.white
     val buttonDisabledContainerColor =
         dynamicColorScheme?.surface ?: Colors.darkGray.copy(alpha = 0.5f)
     val buttonDisabledContentColor =
         dynamicColorScheme?.onSurface ?: Colors.darkGray.copy(alpha = 0.5f)
+
+    // Cards
+    val cardContainerColor = colorScheme.surfaceContainerLow
+    val cardContentColor = colorScheme.onSurface
+    val cardDisabledContainerColor = colorScheme.onSurface
+    val cardDisabledContentColor = colorScheme.onSurface
+    val cardBorderStrokeColor = Color.Transparent
 
     return AppColor(
         appBarColor = Colors.black.copy(alpha = 0.7f),
@@ -72,6 +86,13 @@ fun createAppColorSystemDark(dynamicColorScheme: ColorScheme?): AppColor {
             contentColor = buttonContentColor,
             disabledContainerColor = buttonDisabledContainerColor,
             disabledContentColor = buttonDisabledContentColor,
+        ),
+        cardColors = CardColors(
+            containerColor = cardContainerColor,
+            contentColor = cardContentColor,
+            disabledContainerColor = cardDisabledContainerColor,
+            disabledContentColor = cardDisabledContentColor,
+            borderStrokeColor = cardBorderStrokeColor,
         ),
         mainDarkColorText = Colors.gray,
     )
@@ -90,12 +111,22 @@ fun createAppColorSystemDark(dynamicColorScheme: ColorScheme?): AppColor {
 @Composable
 @ReadOnlyComposable
 fun createAppColorSystemLight(dynamicColorScheme: ColorScheme?): AppColor {
+    val colorScheme = dynamicColorScheme ?: MaterialTheme.colorScheme
+
+    // Buttons
     val buttonContainerColor = dynamicColorScheme?.primary ?: Colors.lightGray
     val buttonContentColor = dynamicColorScheme?.onPrimary ?: Colors.black
     val buttonDisabledContainerColor =
         dynamicColorScheme?.surface ?: Colors.lightGray.copy(alpha = 0.5f)
     val buttonDisabledContentColor =
         dynamicColorScheme?.onSurface ?: Colors.black.copy(alpha = 0.5f)
+
+    // Cards
+    val cardContainerColor = colorScheme.surfaceContainerLow
+    val cardContentColor = colorScheme.onSurface
+    val cardDisabledContainerColor = colorScheme.onSurface
+    val cardDisabledContentColor = colorScheme.onSurface
+    val cardBorderStrokeColor = colorScheme.onPrimary
 
     return AppColor(
         appBarColor = Colors.white.copy(alpha = 0.7f),
@@ -106,6 +137,13 @@ fun createAppColorSystemLight(dynamicColorScheme: ColorScheme?): AppColor {
             contentColor = buttonContentColor,
             disabledContainerColor = buttonDisabledContainerColor,
             disabledContentColor = buttonDisabledContentColor,
+        ),
+        cardColors = CardColors(
+            containerColor = cardContainerColor,
+            contentColor = cardContentColor,
+            disabledContainerColor = cardDisabledContainerColor,
+            disabledContentColor = cardDisabledContentColor,
+            borderStrokeColor = cardBorderStrokeColor,
         ),
         mainDarkColorText = Colors.darkGray,
     )
