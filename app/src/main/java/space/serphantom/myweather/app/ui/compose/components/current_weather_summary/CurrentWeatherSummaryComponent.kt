@@ -21,9 +21,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import space.serphantom.myweather.app.ui.compose.data.entity.current_weather_summary.CurrentWeatherSummaryData
+import space.serphantom.myweather.app.ui.compose.extensions.cards.AppFilledCard
 import space.serphantom.myweather.app.ui.compose.extensions.dividers.HorizontalDividerComponent
-import space.serphantom.myweather.app.ui.compose.extensions.cards.AppCard
-import space.serphantom.myweather.app.ui.compose.extensions.cards.StyledCard
 import space.serphantom.myweather.app.ui.compose.theme.AppTheme
 import space.serphantom.myweather.utils.DateUtils
 import java.time.LocalDate
@@ -45,8 +44,7 @@ fun CurrentWeatherSummaryComponent(
     weatherData: CurrentWeatherSummaryData,
     modifier: Modifier = Modifier,
 ) {
-    StyledCard(
-        cardStyle = AppCard.noneElevationStyle(),
+    AppFilledCard(
         modifier = modifier.fillMaxWidth(),
     ) {
         Column(

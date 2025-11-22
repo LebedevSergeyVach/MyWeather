@@ -1,4 +1,4 @@
- package space.serphantom.myweather.app.ui.compose.components.weatherhours
+package space.serphantom.myweather.app.ui.compose.components.weatherhours
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -31,9 +31,8 @@ import space.serphantom.myweather.R
 import space.serphantom.myweather.app.ui.compose.components.images.ImageComponent
 import space.serphantom.myweather.app.ui.compose.components.settings.ImageComponentSettings
 import space.serphantom.myweather.app.ui.compose.data.entity.hourlyforecast.HourlyForecastData
+import space.serphantom.myweather.app.ui.compose.extensions.cards.AppFilledCard
 import space.serphantom.myweather.app.ui.compose.extensions.dividers.HorizontalDividerComponent
-import space.serphantom.myweather.app.ui.compose.extensions.cards.AppCard
-import space.serphantom.myweather.app.ui.compose.extensions.cards.StyledCard
 import space.serphantom.myweather.app.ui.compose.extensions.modifiers.hapticScrollEdge
 import space.serphantom.myweather.app.ui.compose.theme.AppTheme
 
@@ -55,9 +54,8 @@ fun HourlyForecastComponent(
     lazyListState: LazyListState,
     modifier: Modifier = Modifier,
 ) {
-    StyledCard(
-        cardStyle = AppCard.noneElevationStyle(),
-        modifier = modifier.fillMaxWidth()
+    AppFilledCard(
+        modifier = modifier.fillMaxWidth(),
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),

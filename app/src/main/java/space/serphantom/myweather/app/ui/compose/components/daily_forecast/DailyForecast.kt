@@ -27,8 +27,7 @@ import space.serphantom.myweather.app.ui.compose.components.images.ImageComponen
 import space.serphantom.myweather.app.ui.compose.data.entity.daily_forecast.DailyForecastData
 import space.serphantom.myweather.app.ui.compose.data.entity.daily_forecast.DailyForecastItemData
 import space.serphantom.myweather.app.ui.compose.extensions.buttons.AppFilledButton
-import space.serphantom.myweather.app.ui.compose.extensions.cards.AppCard
-import space.serphantom.myweather.app.ui.compose.extensions.cards.StyledCard
+import space.serphantom.myweather.app.ui.compose.extensions.cards.AppFilledCard
 import space.serphantom.myweather.app.ui.compose.extensions.dividers.HorizontalDividerComponent
 import space.serphantom.myweather.app.ui.compose.theme.AppTheme
 import space.serphantom.myweather.utils.DateUtils
@@ -56,8 +55,7 @@ fun DailyForecastComponent(
     @SuppressLint("ModifierParameter")
     modifier: Modifier = Modifier,
 ) {
-    StyledCard(
-        cardStyle = AppCard.noneElevationStyle(),
+    AppFilledCard(
         modifier = modifier.fillMaxWidth(),
     ) {
         Column(
