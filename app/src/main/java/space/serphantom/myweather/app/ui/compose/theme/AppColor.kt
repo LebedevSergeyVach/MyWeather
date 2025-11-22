@@ -1,7 +1,8 @@
 package space.serphantom.myweather.app.ui.compose.theme
 
 import androidx.compose.material3.ColorScheme
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.ReadOnlyComposable
@@ -60,27 +61,25 @@ val LocalAppColor = staticCompositionLocalOf {
 @Composable
 @ReadOnlyComposable
 fun createAppColorSystemDark(dynamicColorScheme: ColorScheme?): AppColor {
-    val colorScheme = dynamicColorScheme ?: MaterialTheme.colorScheme
+    val colorScheme = dynamicColorScheme ?: darkColorScheme()
 
     // Buttons
-    val buttonContainerColor = dynamicColorScheme?.primary ?: Colors.darkGray
-    val buttonContentColor = dynamicColorScheme?.onPrimary ?: Colors.white
-    val buttonDisabledContainerColor =
-        dynamicColorScheme?.surface ?: Colors.darkGray.copy(alpha = 0.5f)
-    val buttonDisabledContentColor =
-        dynamicColorScheme?.onSurface ?: Colors.darkGray.copy(alpha = 0.5f)
+    val buttonContainerColor = colorScheme.secondary
+    val buttonContentColor = colorScheme.onSecondary
+    val buttonDisabledContainerColor = colorScheme.onSurface.copy(alpha = 0.12f)
+    val buttonDisabledContentColor = colorScheme.onSurface.copy(alpha = 0.12f)
 
     // Cards
     val cardContainerColor = colorScheme.surfaceContainerLow
     val cardContentColor = colorScheme.onSurface
-    val cardDisabledContainerColor = colorScheme.onSurface
-    val cardDisabledContentColor = colorScheme.onSurface
-    val cardBorderStrokeColor = Color.Transparent
+    val cardDisabledContainerColor = colorScheme.onSurface.copy(alpha = 0.12f)
+    val cardDisabledContentColor = colorScheme.onSurface.copy(alpha = 0.38f)
+    val cardBorderStrokeColor = colorScheme.outline
 
     return AppColor(
         appBarColor = Colors.black.copy(alpha = 0.7f),
         backgroundColor = Colors.black,
-        iconTintColor = Colors.white,
+        iconTintColor = colorScheme.onSurface,
         filledButtonColors = ButtonColors(
             containerColor = buttonContainerColor,
             contentColor = buttonContentColor,
@@ -94,7 +93,7 @@ fun createAppColorSystemDark(dynamicColorScheme: ColorScheme?): AppColor {
             disabledContentColor = cardDisabledContentColor,
             borderStrokeColor = cardBorderStrokeColor,
         ),
-        mainDarkColorText = Colors.gray,
+        mainDarkColorText = colorScheme.onSurfaceVariant,
     )
 }
 
@@ -111,27 +110,25 @@ fun createAppColorSystemDark(dynamicColorScheme: ColorScheme?): AppColor {
 @Composable
 @ReadOnlyComposable
 fun createAppColorSystemLight(dynamicColorScheme: ColorScheme?): AppColor {
-    val colorScheme = dynamicColorScheme ?: MaterialTheme.colorScheme
+    val colorScheme = dynamicColorScheme ?: lightColorScheme()
 
     // Buttons
-    val buttonContainerColor = dynamicColorScheme?.primary ?: Colors.lightGray
-    val buttonContentColor = dynamicColorScheme?.onPrimary ?: Colors.black
-    val buttonDisabledContainerColor =
-        dynamicColorScheme?.surface ?: Colors.lightGray.copy(alpha = 0.5f)
-    val buttonDisabledContentColor =
-        dynamicColorScheme?.onSurface ?: Colors.black.copy(alpha = 0.5f)
+    val buttonContainerColor = colorScheme.primary
+    val buttonContentColor = colorScheme.onPrimary
+    val buttonDisabledContainerColor = colorScheme.onSurface.copy(alpha = 0.12f)
+    val buttonDisabledContentColor = colorScheme.onSurface.copy(alpha = 0.12f)
 
     // Cards
     val cardContainerColor = colorScheme.surfaceContainerLow
     val cardContentColor = colorScheme.onSurface
-    val cardDisabledContainerColor = colorScheme.onSurface
-    val cardDisabledContentColor = colorScheme.onSurface
-    val cardBorderStrokeColor = colorScheme.onPrimary
+    val cardDisabledContainerColor = colorScheme.onSurface.copy(alpha = 0.12f)
+    val cardDisabledContentColor = colorScheme.onSurface.copy(alpha = 0.38f)
+    val cardBorderStrokeColor = colorScheme.outline
 
     return AppColor(
         appBarColor = Colors.white.copy(alpha = 0.7f),
         backgroundColor = Colors.white,
-        iconTintColor = Colors.black,
+        iconTintColor = colorScheme.onSurface,
         filledButtonColors = ButtonColors(
             containerColor = buttonContainerColor,
             contentColor = buttonContentColor,
@@ -145,7 +142,7 @@ fun createAppColorSystemLight(dynamicColorScheme: ColorScheme?): AppColor {
             disabledContentColor = cardDisabledContentColor,
             borderStrokeColor = cardBorderStrokeColor,
         ),
-        mainDarkColorText = Colors.darkGray,
+        mainDarkColorText = colorScheme.onSurfaceVariant,
     )
 }
 

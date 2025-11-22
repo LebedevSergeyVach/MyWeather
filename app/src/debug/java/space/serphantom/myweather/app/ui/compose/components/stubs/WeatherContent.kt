@@ -11,6 +11,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -22,6 +26,77 @@ import space.serphantom.myweather.app.ui.compose.data.entity.daily_forecast.Dail
 import space.serphantom.myweather.app.ui.compose.data.entity.daily_forecast.DailyForecastItemData
 import space.serphantom.myweather.app.ui.compose.data.entity.hourlyforecast.HourlyForecastData
 import java.time.LocalDate
+
+@Composable
+fun WeatherContent(
+    scrollState: LazyListState,
+    paddingValues: PaddingValues,
+    modifier: Modifier = Modifier,
+) {
+    var showColorPalette by remember { mutableStateOf(false) }
+    var useDynamicColors by remember { mutableStateOf(false) }
+
+    val handleDismiss = { showColorPalette = false }
+
+    val handleToggleDynamicColors = { useDynamicColors = useDynamicColors.not() }
+
+    if (showColorPalette) {
+        ColorPaletteBottomSheet(
+            useDynamicColors = useDynamicColors,
+            onDismiss = handleDismiss,
+            onCheckedChange = { _ -> handleToggleDynamicColors() },
+        )
+    }
+
+    LazyColumn(
+        state = scrollState,
+        verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        contentPadding = paddingValues,
+        modifier = modifier
+            .fillMaxSize()
+            .padding(horizontal = 16.dp),
+    ) {
+        item {
+            CurrentWeatherSummaryComponent(
+                weatherData = CurrentWeatherSummaryData(
+                    feelsLike = 34,
+                    date = LocalDate.now(),
+                    humidity = 65,
+                    windSpeed = 3.2,
+                    chanceOfRain = 15,
+                    disclaimer = "Ближайшие дни ожидаются ураганы и плохая погода. Телефон 112."
+                ),
+                modifier = Modifier.padding(top = 64.dp)
+            )
+        }
+
+        item {
+            val lazyListState = rememberLazyListState()
+            HourlyForecastComponent(
+                hourlyForecastData = createTestWeatherHourDataList(),
+                lazyListState = lazyListState,
+            )
+        }
+
+        item {
+            DailyForecastComponent(
+                onShowMoreClick = { showColorPalette = true },
+                onShowMoreForDateClick = {},
+                forecastData = DailyForecastData(days = createTestDailyForecastData()),
+                initialVisibleItems = 7,
+            )
+        }
+
+        item {
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(32.dp),
+            )
+        }
+    }
+}
 
 internal fun createTestWeatherHourDataList(count: Int = 24): List<HourlyForecastData> {
     val testList = mutableListOf<HourlyForecastData>()
@@ -117,61 +192,5 @@ internal fun createTestDailyForecastData(startDate: LocalDate = LocalDate.now())
             maxTemperature = baseTemp + tempVariation,
             temperatureUnit = "°"
         )
-    }
-}
-
-@Composable
-fun WeatherContent(
-    scrollState: LazyListState,
-    paddingValues: PaddingValues,
-    modifier: Modifier = Modifier,
-) {
-    LazyColumn(
-        state = scrollState,
-        verticalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterVertically),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        contentPadding = paddingValues,
-        modifier = modifier
-            .fillMaxSize()
-            .padding(horizontal = 16.dp),
-    ) {
-        item {
-            CurrentWeatherSummaryComponent(
-                weatherData = CurrentWeatherSummaryData(
-                    feelsLike = 34,
-                    date = LocalDate.now(),
-                    humidity = 65,
-                    windSpeed = 3.2,
-                    chanceOfRain = 15,
-                    disclaimer = "Ближайшие дни ожидаются ураганы и плохая погода. Телефон 112."
-                ),
-                modifier = Modifier.padding(top = 64.dp)
-            )
-        }
-
-        item {
-            val lazyListState = rememberLazyListState()
-            HourlyForecastComponent(
-                hourlyForecastData = createTestWeatherHourDataList(),
-                lazyListState = lazyListState,
-            )
-        }
-
-        item {
-            DailyForecastComponent(
-                onShowMoreClick = {},
-                onShowMoreForDateClick = {},
-                forecastData = DailyForecastData(days = createTestDailyForecastData()),
-                initialVisibleItems = 7,
-            )
-        }
-
-        item {
-            Spacer(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(32.dp),
-            )
-        }
     }
 }
