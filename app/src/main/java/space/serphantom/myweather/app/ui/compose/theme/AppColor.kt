@@ -64,8 +64,8 @@ fun createAppColorSystemDark(dynamicColorScheme: ColorScheme?): AppColor {
     val colorScheme = dynamicColorScheme ?: darkColorScheme()
 
     // Buttons
-    val buttonContainerColor = colorScheme.secondary
-    val buttonContentColor = colorScheme.onSecondary
+    val buttonContainerColor = colorScheme.primary
+    val buttonContentColor = colorScheme.onPrimary
     val buttonDisabledContainerColor = colorScheme.onSurface.copy(alpha = 0.12f)
     val buttonDisabledContentColor = colorScheme.onSurface.copy(alpha = 0.12f)
 
