@@ -1,4 +1,4 @@
-package space.serphantom.myweather.app.ui.compose.components.weatherhours
+package space.serphantom.myweather.app.ui.compose.components.hourly_forecast
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -44,7 +44,7 @@ import space.serphantom.myweather.app.ui.compose.theme.AppTheme
  * @param [lazyListState] Состояние lazy-списка для управления скроллом и отслеживания позиции
  * @param [modifier] Базовый модификатор для настройки внешнего вида компонента
  *
- * @see StyledCard
+ * @see AppFilledCard
  * @see HourlyForecastData
  * @see LazyListState
  */
@@ -62,7 +62,7 @@ fun HourlyForecastComponent(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = HourlyForecastConstants.CARD_VERTICAL_PADDING.dp),
+                .padding(vertical = CARD_VERTICAL_PADDING.dp),
         ) {
             HourlyForecastHeaderComponent()
             HorizontalDividerComponent(horizontalPaddingDp = 16.dp)
@@ -88,18 +88,18 @@ private fun HourlyForecastHeaderComponent(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(
-            space = HourlyForecastConstants.HEADER_SPACING.dp,
+            space = HEADER_SPACING.dp,
             alignment = Alignment.Start,
         ),
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = HourlyForecastConstants.HEADER_HORIZONTAL_PADDING.dp),
+            .padding(horizontal = HEADER_HORIZONTAL_PADDING.dp),
     ) {
         Icon(
             imageVector = Icons.Default.Schedule,
             tint = AppTheme.color.iconTintColor,
             contentDescription = null,
-            modifier = Modifier.size(HourlyForecastConstants.HEADER_ICON_SIZE.dp),
+            modifier = Modifier.size(HEADER_ICON_SIZE.dp),
         )
 
         Text(
@@ -111,7 +111,7 @@ private fun HourlyForecastHeaderComponent(
 
 /**
  * Компонент горизонтального списка с почасовыми прогнозами погоды.
- * Автоматически рассчитывает ширину элементов для отображения [HourlyForecastConstants.VISIBLE_ITEMS_COUNT] компонентов.
+ * Автоматически рассчитывает ширину элементов для отображения [VISIBLE_ITEMS_COUNT] компонентов.
  * Использует [BoxWithConstraints] для адаптации к различным размерам экрана.
  * Использует `LazyRow` для эффективного отображения большого количества элементов.
  *
@@ -131,14 +131,14 @@ private fun HourlyForecastListComponent(
     modifier: Modifier = Modifier,
 ) {
     BoxWithConstraints(modifier = modifier.fillMaxWidth()) {
-        val itemSpacing = HourlyForecastConstants.ITEM_SPACING.dp
-        val horizontalPadding = HourlyForecastConstants.LIST_CONTENT_PADDING.dp
+        val itemSpacing = ITEM_SPACING.dp
+        val horizontalPadding = LIST_CONTENT_PADDING.dp
 
         val itemWidth = calculateItemWidth(
             availableWidth = maxWidth,
             horizontalPadding = horizontalPadding,
             itemSpacing = itemSpacing,
-            visibleItemsCount = HourlyForecastConstants.VISIBLE_ITEMS_COUNT
+            visibleItemsCount = VISIBLE_ITEMS_COUNT
         )
 
         LazyRow(
@@ -178,7 +178,7 @@ private fun HourlyForecastItemComponent(
         modifier = modifier.wrapContentSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(
-            space = HourlyForecastConstants.ITEM_VERTICAL_SPACING.dp,
+            space = ITEM_VERTICAL_SPACING.dp,
             alignment = Alignment.CenterVertically
         ),
     ) {
@@ -245,9 +245,9 @@ private fun WeatherIconComponent(
  * @param [itemSpacing] Промежуток между элементами
  * @param [visibleItemsCount] Количество видимых элементов (может быть дробным для частичного отображения)
  * @return Рассчитанная ширина элемента с ограничениями
- * [min][HourlyForecastConstants.ITEM_MIN_WIDTH]/[max][HourlyForecastConstants.ITEM_MAX_WIDTH]
+ * [min][ITEM_MIN_WIDTH]/[max][ITEM_MAX_WIDTH]
  *
- * @see HourlyForecastConstants.VISIBLE_ITEMS_COUNT
+ * @see VISIBLE_ITEMS_COUNT
  */
 @Composable
 private fun calculateItemWidth(
@@ -256,8 +256,8 @@ private fun calculateItemWidth(
     itemSpacing: Dp,
     visibleItemsCount: Float,
 ): Dp {
-    val minWidth = HourlyForecastConstants.ITEM_MIN_WIDTH.dp
-    val maxWidth = HourlyForecastConstants.ITEM_MAX_WIDTH.dp
+    val minWidth = ITEM_MIN_WIDTH.dp
+    val maxWidth = ITEM_MAX_WIDTH.dp
 
     val totalHorizontalPadding = horizontalPadding * 2
     val totalSpacing = itemSpacing * (visibleItemsCount - 1).toInt()
@@ -267,30 +267,24 @@ private fun calculateItemWidth(
     return calculatedWidth.coerceIn(minimumValue = minWidth, maximumValue = maxWidth)
 }
 
-/**
- * Объект, содержащий константы для компонента почасового прогноза погоды.
- * Включает значения размеров, отступов, радиусов скругления и другие параметры `UI`.
- */
-private object HourlyForecastConstants {
-    // Card константы
-    const val CARD_VERTICAL_PADDING = 16
+// Card константы
+private const val CARD_VERTICAL_PADDING = 16
 
-    // Header константы
-    const val HEADER_ICON_SIZE = 16
-    const val HEADER_SPACING = 8
-    const val HEADER_HORIZONTAL_PADDING = 16
+// Header константы
+private const val HEADER_ICON_SIZE = 16
+private const val HEADER_SPACING = 8
+private const val HEADER_HORIZONTAL_PADDING = 16
 
-    // List константы
-    const val LIST_CONTENT_PADDING = 16
-    const val ITEM_SPACING = 16
+// List константы
+private const val LIST_CONTENT_PADDING = 16
+private const val ITEM_SPACING = 16
 
-    // Адаптивные константы для отображения 5.5 элементов
-    const val VISIBLE_ITEMS_COUNT = 5.5f
+// Адаптивные константы для отображения 5.5 элементов
+private const val VISIBLE_ITEMS_COUNT = 5.5f
 
-    // Минимальная и максимальная ширина элемента
-    const val ITEM_MIN_WIDTH = 32
-    const val ITEM_MAX_WIDTH = 100
+// Минимальная и максимальная ширина элемента
+private const val ITEM_MIN_WIDTH = 32
+private const val ITEM_MAX_WIDTH = 100
 
-    // Item константы
-    const val ITEM_VERTICAL_SPACING = 4
-}
+// Item константы
+private const val ITEM_VERTICAL_SPACING = 4

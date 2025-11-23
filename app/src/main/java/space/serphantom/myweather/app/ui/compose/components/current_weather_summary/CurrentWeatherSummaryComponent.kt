@@ -38,24 +38,28 @@ import java.time.LocalDate
  * @param [modifier] модификатор для кастомизации внешнего вида и поведения компонента
  *
  * @sample [CurrentWeatherSummaryComponentPreview]
+ *
+ * @see AppFilledCard
  */
 @Composable
 fun CurrentWeatherSummaryComponent(
+    onClick: () -> Unit = {},
     weatherData: CurrentWeatherSummaryData,
     modifier: Modifier = Modifier,
 ) {
     AppFilledCard(
+        onClick = onClick,
         modifier = modifier.fillMaxWidth(),
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(
-                space = CurrentWeatherSummaryConstants.CONTENT_SPACING,
+                space = CONTENT_SPACING,
                 alignment = Alignment.CenterVertically,
             ),
             horizontalAlignment = Alignment.Start,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(CurrentWeatherSummaryConstants.CARD_PADDING),
+                .padding(CARD_PADDING),
         ) {
             DateTextComponent(weatherData.date)
             WeatherContentComponent(weatherData)
@@ -120,7 +124,7 @@ private fun TemperatureComponent(
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(
-            space = CurrentWeatherSummaryConstants.CONTENT_SPACING / 2,
+            space = CONTENT_SPACING / 2,
             alignment = Alignment.CenterVertically
         ),
         horizontalAlignment = Alignment.Start,
@@ -161,7 +165,7 @@ private fun WeatherParametersComponent(
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(
-            space = CurrentWeatherSummaryConstants.PARAMETER_ROW_SPACING,
+            space = PARAMETER_ROW_SPACING,
             alignment = Alignment.Top,
         ),
         horizontalAlignment = Alignment.Start,
@@ -209,7 +213,7 @@ private fun WeatherParameterRowComponent(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(
-            space = CurrentWeatherSummaryConstants.PARAMETER_INTERNAL_SPACING,
+            space = PARAMETER_INTERNAL_SPACING,
             alignment = Alignment.Start,
         ),
         modifier = modifier
@@ -218,7 +222,7 @@ private fun WeatherParameterRowComponent(
             imageVector = imageVector,
             contentDescription = null,
             tint = AppTheme.color.iconTintColor,
-            modifier = Modifier.size(CurrentWeatherSummaryConstants.ICON_SIZE),
+            modifier = Modifier.size(ICON_SIZE),
         )
 
         Text(
@@ -254,13 +258,8 @@ private fun DisclaimerComponent(disclaimer: String?) {
     }
 }
 
-/**
- * Константы для числовых значений в компоненте
- */
-private object CurrentWeatherSummaryConstants {
-    val CARD_PADDING = 16.dp
-    val CONTENT_SPACING = 8.dp
-    val PARAMETER_ROW_SPACING = 8.dp
-    val ICON_SIZE = 16.dp
-    val PARAMETER_INTERNAL_SPACING = 8.dp
-}
+private val CARD_PADDING = 16.dp
+private val CONTENT_SPACING = 8.dp
+private val PARAMETER_ROW_SPACING = 8.dp
+private val ICON_SIZE = 16.dp
+private val PARAMETER_INTERNAL_SPACING = 8.dp

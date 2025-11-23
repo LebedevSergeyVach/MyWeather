@@ -2,13 +2,13 @@ package space.serphantom.myweather.app.ui.compose.components.daily_forecast
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.CalendarMonth
 import androidx.compose.material3.Icon
@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -45,13 +46,15 @@ import java.time.LocalDate
  * @param [forecastData] данные для отображения прогноза по дням
  * @param [initialVisibleItems] количество `initially` отображаемых элементов
  * @param [modifier] модификатор для настройки внешнего вида и поведения компонента
+ *
+ * @see AppFilledCard
  */
 @Composable
 fun DailyForecastComponent(
     onShowMoreClick: () -> Unit,
     onShowMoreForDateClick: (LocalDate) -> Unit,
     forecastData: DailyForecastData,
-    initialVisibleItems: Int = DailyForecastConstants.INITIAL_VISIBLE_ITEMS_DEFAULT,
+    initialVisibleItems: Int = INITIAL_VISIBLE_ITEMS_DEFAULT,
     @SuppressLint("ModifierParameter")
     modifier: Modifier = Modifier,
 ) {
@@ -61,12 +64,12 @@ fun DailyForecastComponent(
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(
-                space = DailyForecastConstants.CONTENT_SPACING,
+                space = CONTENT_SPACING,
                 alignment = Alignment.CenterVertically,
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(DailyForecastConstants.CARD_PADDING),
+                .padding(CARD_PADDING),
         ) {
             ForecastHeaderComponent()
             HorizontalDividerComponent()
@@ -95,7 +98,7 @@ private fun ForecastHeaderComponent(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(
-            space = DailyForecastConstants.HEADER_SPACING,
+            space = HEADER_SPACING,
             alignment = Alignment.Start,
         ),
         modifier = modifier.fillMaxWidth(),
@@ -104,7 +107,7 @@ private fun ForecastHeaderComponent(
             imageVector = Icons.Outlined.CalendarMonth,
             tint = AppTheme.color.iconTintColor,
             contentDescription = null,
-            modifier = Modifier.size(DailyForecastConstants.ICON_HEADER_SIZE),
+            modifier = Modifier.size(ICON_HEADER_SIZE),
         )
 
         Text(
@@ -147,8 +150,8 @@ private fun ForecastDaysListComponent(
             )
 
             HorizontalDividerComponent(
-                verticalPaddingDp = DailyForecastConstants.CONTENT_SPACING / 2,
-                thicknessDp = DailyForecastConstants.DIVIDER_THICKNESS
+                verticalPaddingDp = CONTENT_SPACING / 2,
+                thicknessDp = DIVIDER_THICKNESS
             )
         }
     }
@@ -170,16 +173,11 @@ private fun DailyForecastItemComponent(
     dayData: DailyForecastItemData,
     modifier: Modifier = Modifier,
 ) {
-    val interactionSource = remember { MutableInteractionSource() }
-
     ConstraintLayout(
         modifier = modifier
             .fillMaxWidth()
-            .clickable(
-                onClick = onShowMoreForDateClick,
-                indication = null,
-                interactionSource = interactionSource
-            ),
+            .clip(RoundedCornerShape(ROUNDED_CORNER_SHAPE_ITEM))
+            .clickable(onClick = onShowMoreForDateClick),
     ) {
         val (dateRef, weatherIconRef, precipitationRef, tempRangeRef) = createRefs()
 
@@ -198,11 +196,11 @@ private fun DailyForecastItemComponent(
         ImageComponent(
             url = dayData.weatherIconUrl,
             modifier = Modifier
-                .size(DailyForecastConstants.WEATHER_ICON_SIZE)
+                .size(WEATHER_ICON_SIZE)
                 .constrainAs(weatherIconRef) {
                     centerHorizontallyTo(
                         other = parent,
-                        bias = DailyForecastConstants.WEATHER_ICON_BIAS,
+                        bias = WEATHER_ICON_BIAS,
                     )
                     centerVerticallyTo(other = parent)
                 }
@@ -214,7 +212,7 @@ private fun DailyForecastItemComponent(
                 modifier = Modifier.constrainAs(precipitationRef) {
                     start.linkTo(
                         anchor = weatherIconRef.end,
-                        margin = DailyForecastConstants.PRECIPITATION_SPACING,
+                        margin = PRECIPITATION_SPACING,
                     )
                     top.linkTo(anchor = parent.top)
                     bottom.linkTo(anchor = parent.bottom)
@@ -253,7 +251,7 @@ private fun DateAndDayComponent(
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(DailyForecastConstants.DATE_DAY_SPACING),
+        horizontalArrangement = Arrangement.spacedBy(DATE_DAY_SPACING),
         modifier = modifier,
     ) {
         Text(
@@ -318,7 +316,7 @@ private fun TemperatureRangeComponent(
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(
-            space = DailyForecastConstants.TEMPERATURE_SPACING,
+            space = TEMPERATURE_SPACING,
             alignment = Alignment.CenterHorizontally,
         ),
         modifier = modifier,
@@ -364,19 +362,15 @@ private fun MoreButtonComponent(
     )
 }
 
-/**
- * Константы для компонента прогноза погоды по дням
- */
-private object DailyForecastConstants {
-    val ICON_HEADER_SIZE = 16.dp
-    val CARD_PADDING = 16.dp
-    val CONTENT_SPACING = 8.dp
-    val HEADER_SPACING = 8.dp
-    val WEATHER_ICON_SIZE = 32.dp
-    val PRECIPITATION_SPACING = 4.dp
-    val DATE_DAY_SPACING = 4.dp
-    val TEMPERATURE_SPACING = 4.dp
-    const val WEATHER_ICON_BIAS = 0.55f
-    val DIVIDER_THICKNESS = 0.2.dp
-    const val INITIAL_VISIBLE_ITEMS_DEFAULT = 7
-}
+private val ICON_HEADER_SIZE = 16.dp
+private val CARD_PADDING = 16.dp
+private val CONTENT_SPACING = 8.dp
+private val HEADER_SPACING = 8.dp
+private val WEATHER_ICON_SIZE = 32.dp
+private val PRECIPITATION_SPACING = 4.dp
+private val DATE_DAY_SPACING = 4.dp
+private val TEMPERATURE_SPACING = 4.dp
+private const val WEATHER_ICON_BIAS = 0.55f
+private val DIVIDER_THICKNESS = 0.2.dp
+private val ROUNDED_CORNER_SHAPE_ITEM = 8.dp
+private const val INITIAL_VISIBLE_ITEMS_DEFAULT = 7
