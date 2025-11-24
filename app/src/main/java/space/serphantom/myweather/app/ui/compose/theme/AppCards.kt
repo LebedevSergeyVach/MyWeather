@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocal
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.unit.dp
 import space.serphantom.myweather.app.ui.compose.styles.cards.CardStyle
 
@@ -42,6 +43,7 @@ val LocalAppCards = staticCompositionLocalOf {
 @Composable
 fun createAppCards(appColor: AppColor): AppCards {
     val shape = RoundedCornerShape(16.dp)
+    val clickHapticFeedback = HapticFeedbackType.Confirm
     val paddingValues = PaddingValues(16.dp)
 
     val filledColors = appColor.cardColors
@@ -55,12 +57,14 @@ fun createAppCards(appColor: AppColor): AppCards {
             elevation = elevation,
             colors = filledColors,
             contentPadding = paddingValues,
+            hapticFeedbackType = clickHapticFeedback,
         ),
         outlined = CardStyle(
             shape = shape,
             elevation = elevation,
             colors = outlinedColors,
             contentPadding = paddingValues,
+            hapticFeedbackType = clickHapticFeedback,
         ),
     )
 }

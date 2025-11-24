@@ -6,6 +6,7 @@ import androidx.compose.material3.CardElevation
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -20,6 +21,7 @@ import androidx.compose.ui.unit.dp
  * @property [elevation] Настройки тени и elevation карточки - [CardElevation]
  * @property [colors] Цветовая схема карточки для различных состояний - [CardColors]
  * @property [contentPadding] Внутренние отступы содержимого - [PaddingValues]
+ * @property [hapticFeedbackType] Тип тактильного отклика при нажатии - [HapticFeedbackType]
  */
 @Immutable
 data class CardStyle(
@@ -27,6 +29,7 @@ data class CardStyle(
     val elevation: CardElevation?,
     val colors: CardColors,
     val contentPadding: PaddingValues,
+    val hapticFeedbackType: HapticFeedbackType?,
 ) {
 
     companion object {
@@ -39,7 +42,8 @@ data class CardStyle(
             shape = RoundedCornerShape(size = Dp.Unspecified),
             elevation = null,
             colors = CardColors.Unspecified,
-            contentPadding = PaddingValues(0.dp)
+            contentPadding = PaddingValues(0.dp),
+            hapticFeedbackType = null,
         )
     }
 }
