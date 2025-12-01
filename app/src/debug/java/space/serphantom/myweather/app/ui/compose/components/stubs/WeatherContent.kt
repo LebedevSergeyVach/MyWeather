@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import space.serphantom.myweather.app.ui.compose.components.current_weather_summary.CurrentWeatherSummaryComponent
 import space.serphantom.myweather.app.ui.compose.components.daily_forecast.DailyForecastComponent
 import space.serphantom.myweather.app.ui.compose.components.hourly_forecast.HourlyForecastComponent
+import space.serphantom.myweather.app.ui.compose.components.weather_metrics.WeatherMetricsRowComponent
 import space.serphantom.myweather.app.ui.compose.data.entity.current_weather_summary.CurrentWeatherSummaryData
 import space.serphantom.myweather.app.ui.compose.data.entity.daily_forecast.DailyForecastData
 import space.serphantom.myweather.app.ui.compose.data.entity.daily_forecast.DailyForecastItemData
@@ -86,6 +87,14 @@ fun WeatherContent(
                 onShowMoreForDateClick = {},
                 forecastData = DailyForecastData(days = createTestDailyForecastData()),
                 initialVisibleItems = 7,
+            )
+        }
+
+        item {
+            WeatherMetricsRowComponent(
+                windSpeed = 19,
+                windDirection = "ЮЗ",
+                humidity = 65,
             )
         }
 
